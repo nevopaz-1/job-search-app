@@ -8,152 +8,67 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#007FFF;
-    --accent-light:#E6F1FB;
-    --accent-dark:#0A5FBF;
-    --bg:#F5F7FA;
-    --card:#FFFFFF;
-    --border:#E4E7EB;
-    --text:#1A1A1A;
-    --text-secondary:#6B7280;
-    --text-muted:#9CA3AF;
-    --red:#E24B4A;
-    --red-bg:#FCEBEB;
-    --green:#3B8A3B;
-    --green-bg:#EAF6EA;
-    --amber:#BA7517;
-    --amber-bg:#FAEEDA;
+    --accent:#007FFF; --accent-light:#E6F1FB; --accent-dark:#0A5FBF;
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E4E7EB;
+    --text:#1A1A1A; --text-secondary:#6B7280; --text-muted:#9CA3AF;
+    --red:#E24B4A; --red-bg:#FCEBEB;
+    --green:#2E9E4F; --green-bg:#EAF6EA;
+    --amber:#BA7517; --amber-bg:#FAEEDA;
+    --blue:#007FFF; --blue-bg:#E6F1FB;
     --radius:16px;
   }
   *{box-sizing:border-box;}
-  body{
-    font-family:'Rubik',sans-serif;
-    background:var(--bg);
-    margin:0;
-    color:var(--text);
-    padding-bottom:70px;
-  }
+  body{font-family:'Rubik',sans-serif;background:var(--bg);margin:0;color:var(--text);padding-bottom:70px;}
   h1,h2,h3{font-weight:700;margin:0;}
   p{margin:0;}
   .hidden{display:none !important;}
   .wrap{max-width:520px;margin:0 auto;padding:16px;}
-  .card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:16px;
-    margin-bottom:12px;
-  }
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
   .card-title{font-size:13px;color:var(--text-secondary);font-weight:500;margin-bottom:8px;}
   .row{display:flex;align-items:center;gap:10px;}
   .between{display:flex;align-items:center;justify-content:space-between;}
-  .btn{
-    background:var(--accent);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    padding:11px 18px;
-    font-family:inherit;
-    font-weight:700;
-    font-size:14px;
-    cursor:pointer;
-  }
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;}
   .btn:active{transform:scale(0.98);}
-  .btn-outline{
-    background:#fff;
-    color:var(--accent);
-    border:1.5px solid var(--accent);
-  }
-  .btn-ghost{
-    background:transparent;
-    border:none;
-    color:var(--accent);
-    font-family:inherit;
-    font-weight:500;
-    font-size:13px;
-    cursor:pointer;
-    padding:4px 8px;
-  }
+  .btn-outline{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+  .btn-ghost{background:transparent;border:none;color:var(--accent);font-family:inherit;font-weight:500;font-size:13px;cursor:pointer;padding:4px 8px;}
   .btn-sm{padding:6px 12px;font-size:12px;border-radius:8px;}
-  input,select,textarea{
-    width:100%;
-    font-family:inherit;
-    font-size:14px;
-    padding:10px 12px;
-    border:1px solid var(--border);
-    border-radius:10px;
-    background:#fff;
-    color:var(--text);
-    margin-bottom:10px;
-  }
+  .icon-btn{background:var(--accent-light);border:none;color:var(--accent-dark);width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  input,select,textarea{width:100%;font-family:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);margin-bottom:10px;}
   label{font-size:12px;color:var(--text-secondary);font-weight:500;display:block;margin-bottom:4px;}
-  .badge{
-    font-size:11px;
-    font-weight:700;
-    padding:3px 9px;
-    border-radius:20px;
-    display:inline-block;
-  }
-  .badge-accent{background:var(--accent-light);color:var(--accent-dark);}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block;white-space:nowrap;}
+  .badge-accent{background:var(--blue-bg);color:var(--accent-dark);}
   .badge-red{background:var(--red-bg);color:var(--red);}
   .badge-amber{background:var(--amber-bg);color:var(--amber);}
   .badge-green{background:var(--green-bg);color:var(--green);}
-  .task-row{
-    display:flex;align-items:center;gap:10px;
-    border:1px solid var(--border);border-radius:12px;
-    padding:12px 14px;margin-bottom:8px;
-  }
-  .checkbox{
-    width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);
-    flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    font-size:13px;color:#fff;
-  }
+  .task-row{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+  .checkbox{width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;}
   .checkbox.checked{background:var(--accent);}
   .stat{flex:1;text-align:center;}
-  .stat-num{font-size:22px;font-weight:800;color:var(--accent);}
-  .stat-label{font-size:11px;color:var(--text-secondary);font-weight:500;margin-top:2px;}
-  header.top{
-    background:var(--accent);
-    color:#fff;
-    padding:24px 16px 26px;
-    border-radius:0 0 24px 24px;
-    margin-bottom:16px;
-  }
+  .stat-num{font-size:20px;font-weight:800;color:var(--accent);}
+  .stat-label{font-size:10px;color:var(--text-secondary);font-weight:500;margin-top:2px;}
+  header.top{background:var(--accent);color:#fff;padding:24px 16px 26px;border-radius:0 0 24px 24px;margin-bottom:16px;}
   header.top p{opacity:.9;font-size:13px;font-weight:500;}
   header.top h1{font-size:21px;margin-top:6px;color:#fff;}
-  nav.bottom{
-    position:fixed;bottom:0;left:0;right:0;
-    background:#fff;border-top:1px solid var(--border);
-    display:flex;justify-content:space-around;padding:8px 0;
-    max-width:520px;margin:0 auto;
-  }
-  nav.bottom button{
-    background:none;border:none;font-family:inherit;
-    font-size:11px;color:var(--text-muted);font-weight:500;
-    display:flex;flex-direction:column;align-items:center;gap:3px;
-    cursor:pointer;padding:4px 8px;
-  }
+  nav.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0;max-width:520px;margin:0 auto;}
+  nav.bottom button{background:none;border:none;font-family:inherit;font-size:11px;color:var(--text-muted);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 8px;}
   nav.bottom button.active{color:var(--accent);}
-  .dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;}
   .contact-name{font-weight:500;font-size:14px;}
   .contact-meta{font-size:12px;color:var(--text-secondary);}
   .empty{text-align:center;color:var(--text-muted);font-size:13px;padding:24px 0;}
-  .modal-bg{
-    position:fixed;inset:0;background:rgba(0,0,0,.4);
-    display:flex;align-items:flex-end;justify-content:center;z-index:50;
-  }
-  .modal{
-    background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 24px;
-    width:100%;max-width:520px;max-height:85vh;overflow-y:auto;
-  }
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;z-index:50;}
+  .modal{background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 24px;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;}
   .modal h3{margin-bottom:14px;}
   .center{text-align:center;}
-  #authScreen{
-    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
-  }
+  #authScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
   #authScreen .card{width:100%;max-width:380px;}
-  .link-btn{background:none;border:none;color:var(--accent);font-family:inherit;font-weight:500;font-size:13px;cursor:pointer;}
   .err{color:var(--red);font-size:13px;margin-bottom:10px;}
+  .banner{background:var(--amber-bg);border:1px solid var(--amber);border-radius:12px;padding:12px 14px;margin-bottom:12px;}
+  .banner p{font-size:13px;color:var(--amber);font-weight:500;margin-bottom:6px;}
+  .day-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .day-row span{width:34px;font-size:12px;color:var(--text-secondary);flex-shrink:0;}
+  .day-row select{margin-bottom:0;}
+  .contact-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+  .dot-status{width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:6px;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -181,6 +96,9 @@
 
     <!-- HOME -->
     <section id="tab-home">
+      <div id="weeklyMoraleBanner"></div>
+      <div id="monthlyMoraleBanner"></div>
+
       <div class="card-title">משימות היום</div>
       <div id="homeTasks"></div>
 
@@ -189,12 +107,16 @@
 
       <div id="homeReminders" style="margin-top:16px;"></div>
 
-      <div class="card-title" style="margin-top:16px;">השבוע</div>
+      <div id="homeWeeklyPicks" style="margin-top:16px;"></div>
+
+      <div class="card-title" style="margin-top:16px;">השבוע והחודש</div>
       <div class="card row">
         <div class="stat"><div class="stat-num" id="statApps">0/3</div><div class="stat-label">הגשות</div></div>
         <div class="stat" style="border-right:1px solid var(--border);border-left:1px solid var(--border);"><div class="stat-num" id="statNet">0/3</div><div class="stat-label">נטוורקינג</div></div>
-        <div class="stat"><div class="stat-num" id="statMorale">0/1</div><div class="stat-label">מורל שבועי</div></div>
+        <div class="stat" style="border-left:1px solid var(--border);"><div class="stat-num" id="statMoraleW">0/1</div><div class="stat-label">מורל שבועי</div></div>
+        <div class="stat"><div class="stat-num" id="statMoraleM">0/1</div><div class="stat-label">מורל חודשי</div></div>
       </div>
+      <button class="btn btn-outline" style="width:100%;" onclick="copySummary()">העתקה לוואטסאפ למאמנת</button>
     </section>
 
     <!-- APPLICATIONS -->
@@ -210,9 +132,15 @@
     <section id="tab-network" class="hidden">
       <div class="between" style="margin-bottom:10px;">
         <h2>נטוורקינג</h2>
-        <button class="btn btn-sm" onclick="openWeeklyPick()">בחירת 3 לשבוע</button>
+        <button class="btn btn-sm" onclick="openWeeklyPick()">בחירת אנשים לשבוע</button>
       </div>
       <div id="networkFollowups"></div>
+      <div id="insightsWrap"></div>
+      <div class="card-title">
+        <span class="dot-status" style="background:var(--red);"></span> עוד לא פנית &nbsp;
+        <span class="dot-status" style="background:var(--blue);"></span> מתוכנן השבוע &nbsp;
+        <span class="dot-status" style="background:var(--green);"></span> שוחחתם
+      </div>
       <div id="networkList"></div>
     </section>
 
@@ -227,27 +155,26 @@
 
     <!-- MORALE -->
     <section id="tab-morale" class="hidden">
-      <h2 style="margin-bottom:10px;">מורל</h2>
+      <h2 style="margin-bottom:4px;">מורל</h2>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">ניהול רשימות הפעילויות. הבחירה השבועית/חודשית מתבצעת בדף הבית.</p>
       <div class="card-title">יומי</div>
       <div class="card" id="moraleDaily"></div>
+      <div class="row" style="margin-bottom:16px;">
+        <input id="newDaily" placeholder="פעילות יומית חדשה">
+        <button class="btn btn-sm" onclick="addMoraleItem('daily')">הוספה</button>
+      </div>
       <div class="card-title">שבועי</div>
       <div class="card" id="moraleWeekly"></div>
+      <div class="row" style="margin-bottom:16px;">
+        <input id="newWeekly" placeholder="פעילות שבועית חדשה">
+        <button class="btn btn-sm" onclick="addMoraleItem('weekly')">הוספה</button>
+      </div>
       <div class="card-title">חודשי</div>
       <div class="card" id="moraleMonthly"></div>
-      <div class="card-title">בוצע לאחרונה</div>
-      <div id="moraleLog"></div>
-    </section>
-
-    <!-- SUMMARY -->
-    <section id="tab-summary" class="hidden">
-      <h2 style="margin-bottom:10px;">סיכום שבועי</h2>
-      <div class="card row">
-        <div class="stat"><div class="stat-num" id="sumApps">0</div><div class="stat-label">הגשות</div></div>
-        <div class="stat" style="border-right:1px solid var(--border);border-left:1px solid var(--border);"><div class="stat-num" id="sumNet">0</div><div class="stat-label">נטוורקינג</div></div>
-        <div class="stat"><div class="stat-num" id="sumMorale">0</div><div class="stat-label">מורל</div></div>
+      <div class="row" style="margin-bottom:16px;">
+        <input id="newMonthly" placeholder="פעילות חודשית חדשה">
+        <button class="btn btn-sm" onclick="addMoraleItem('monthly')">הוספה</button>
       </div>
-      <button class="btn btn-outline" style="width:100%;margin-top:12px;" onclick="copySummary()">העתקה לוואטסאפ</button>
-      <div id="summaryDetail" style="margin-top:16px;"></div>
     </section>
 
   </div>
@@ -258,7 +185,6 @@
     <button id="nav-network" onclick="switchTab('network')">נטוורקינג</button>
     <button id="nav-tasks" onclick="switchTab('tasks')">משימות</button>
     <button id="nav-morale" onclick="switchTab('morale')">מורל</button>
-    <button id="nav-summary" onclick="switchTab('summary')">סיכום</button>
   </nav>
 </div>
 
@@ -271,7 +197,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore, collection, doc, setDoc, getDoc, getDocs, addDoc, updateDoc,
-  query, where, writeBatch, serverTimestamp
+  query, where, writeBatch, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -286,17 +212,17 @@ const firebaseConfig = {
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
-
 let uid = null;
 
-/* ---------- static data: morale lists ---------- */
-const MORALE = {
+const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'];
+const DAY_NAMES = {sun:'א׳',mon:'ב׳',tue:'ג׳',wed:'ד׳',thu:'ה׳',fri:'ו׳',sat:'ש׳'};
+
+const DEFAULT_MORALE = {
   daily: ["הליכה אירובית בקיבוץ","לנגן בגיטרה","לצאת עם המצלמה לצלם בשקיעה","כוס קפה בשקט בלי מסכים ובלי ילדים","לבשל משהו טעים או מיוחד","לשבת אצל חבר בערב","להתקשר למישהו שממש בא לי לדבר איתו","ליצור משהו במחשב","להכין לופה למשפחה","10 דקות מתיחות לכל הגוף","לקרוא ספר או פרק אחד","5 דקות נשימות עמוקות עם עיניים עצומות"],
   weekly: ["יציאה למסעדה או פאב עם חברים","דייט עם אשתי מחוץ לבית","דייט עם אשתי בתוך הבית","ללכת לחוג אייקידו","לראות סרט בטלוויזיה","לשבת על בירה עם חברים בבית של חבר","לנגן עם להקה","ללכת לשחות בבריכה","לנסוע לפגוש חבר ותיק","קמפינג עם הילדים","טיול לנחל או מעיין עם הילדים","לצאת לצלם בערב בשקיעה","לנגן בגיטרה לבד","לסדר או לנקות משהו ספציפי בבית","מנגל עם חברים"],
   monthly: ["הופעה של זמר או להקה שאני אוהב","סטנדאפ","חופשה עם אשתי","טיול למקום חדש","ערב חברים גדול ומאורגן","מסאז' לגוף","לים","לנחל או מעיין","יום ה'כן' למשפחה","ללמוד משהו חדש (סדנה/חוג/הרצאה)"]
 };
 
-/* ---------- static: excel import seed ---------- */
 const SEED_NETWORK = [
 ["אורי לדר","בינוני","חקלאות","מנכ\"ל הדרי ניצנים","חבר",null,"לא פניתי עדיין",null,null],
 ["אמיר מרקוס","גבוה","סטרטאפ מוצר","לא ידוע","חבר","2026-07-15","לא פניתי עדיין","2026-07-30","אמר שאם ישמע משהו יעדכן, מוכן לשתף פוסט חיפוש עבודה."],
@@ -333,7 +259,7 @@ const SEED_NETWORK = [
 ["לילי בת דודה","בינוני","דיגיטל","MONDAY","משפחה",null,"לא פניתי עדיין",null,null],
 ["אסף בנדור","נמוך","דיגיטל",null,"חבר מילואים",null,"לא פניתי עדיין",null,null],
 ["עודד","נמוך","שיווק",null,"חבר מילואים",null,"לא פניתי עדיין",null,null]
-].map(r=>({name:r[0],importance:r[1],industry:r[2],company:r[3],source:r[4],firstOutreach:r[5],status:r[6],nextFollowUp:r[7],notes:r[8]}));
+].map(r=>({name:r[0],importance:r[1],industry:r[2],company:r[3],source:r[4],firstOutreach:r[5],status:r[6],nextFollowUp:r[7],notes:r[8],phone:null,plannedThisWeek:false}));
 
 const SEED_APPS = [
 {company:"ONE", industry:"מוצרים דיגיטליים", role:"מתפעל אתרים", link:"https://www.alljobs.co.il/", submittedDate:"2026-07-13", source:"אול ג'ובס", status:"הוגש", contactPerson:null, nextFollowUp:"2026-07-20", notes:null}
@@ -346,17 +272,29 @@ const SEED_TASKS = [
 
 /* ---------- auth ---------- */
 window.doSignIn = async function(){
-  const email = document.getElementById('authEmail').value;
-  const pass = document.getElementById('authPass').value;
+  const email = document.getElementById('authEmail').value.trim();
+  const pass = document.getElementById('authPass').value.trim();
+  if(!email || !pass){ showAuthErr('נא למלא אימייל וסיסמה'); return; }
   try{ await signInWithEmailAndPassword(auth, email, pass); }
-  catch(e){ showAuthErr(e.message); }
+  catch(e){ showAuthErr(friendlyErr(e)); }
 };
 window.doSignUp = async function(){
-  const email = document.getElementById('authEmail').value;
-  const pass = document.getElementById('authPass').value;
+  const email = document.getElementById('authEmail').value.trim();
+  const pass = document.getElementById('authPass').value.trim();
+  if(!email || !pass){ showAuthErr('נא למלא אימייל וסיסמה'); return; }
+  if(pass.length<6){ showAuthErr('הסיסמה צריכה להיות לפחות 6 תווים'); return; }
   try{ await createUserWithEmailAndPassword(auth, email, pass); }
-  catch(e){ showAuthErr(e.message); }
+  catch(e){ showAuthErr(friendlyErr(e)); }
 };
+function friendlyErr(e){
+  const m = e.message||'';
+  if(m.includes('invalid-email')) return 'כתובת האימייל לא תקינה';
+  if(m.includes('email-already-in-use')) return 'כבר יש חשבון עם האימייל הזה - נסה להתחבר';
+  if(m.includes('weak-password')) return 'הסיסמה חלשה מדי - לפחות 6 תווים';
+  if(m.includes('wrong-password') || m.includes('invalid-credential')) return 'אימייל או סיסמה שגויים';
+  if(m.includes('user-not-found')) return 'לא נמצא חשבון עם האימייל הזה';
+  return m;
+}
 function showAuthErr(msg){
   const el = document.getElementById('authErr');
   el.textContent = msg;
@@ -383,18 +321,10 @@ async function ensureSeed(){
   const flagSnap = await getDoc(flagRef);
   if(flagSnap.exists()) return;
   const batch = writeBatch(db);
-  SEED_NETWORK.forEach(c=>{
-    const ref = doc(collection(db,'users',uid,'networking'));
-    batch.set(ref, c);
-  });
-  SEED_APPS.forEach(a=>{
-    const ref = doc(collection(db,'users',uid,'applications'));
-    batch.set(ref, a);
-  });
-  SEED_TASKS.forEach(t=>{
-    const ref = doc(collection(db,'users',uid,'tasks'));
-    batch.set(ref, t);
-  });
+  SEED_NETWORK.forEach(c=>{ batch.set(doc(collection(db,'users',uid,'networking')), c); });
+  SEED_APPS.forEach(a=>{ batch.set(doc(collection(db,'users',uid,'applications')), a); });
+  SEED_TASKS.forEach(t=>{ batch.set(doc(collection(db,'users',uid,'tasks')), t); });
+  batch.set(doc(db,'users',uid,'moraleLists','lists'), DEFAULT_MORALE);
   batch.set(flagRef, {done:true});
   await batch.commit();
 }
@@ -402,26 +332,25 @@ async function ensureSeed(){
 /* ---------- helpers ---------- */
 function todayStr(){ return new Date().toISOString().slice(0,10); }
 function isFriday(){ return new Date().getDay() === 5; }
-function startOfWeek(){
-  const d = new Date();
-  const day = d.getDay(); // 0=Sun
-  d.setDate(d.getDate()-day);
-  d.setHours(0,0,0,0);
-  return d;
-}
-function fmtDate(s){
-  if(!s) return '';
-  const d = new Date(s);
-  return d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'});
+function startOfWeek(){ const d=new Date(); d.setDate(d.getDate()-d.getDay()); d.setHours(0,0,0,0); return d; }
+function isoWeekStart(){ return startOfWeek().toISOString().slice(0,10); }
+function monthId(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+function todayDayKey(){ return DAY_KEYS[new Date().getDay()]; }
+function fmtDate(s){ if(!s) return ''; const d=new Date(s); return d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'}); }
+function val(id){ return document.getElementById(id).value; }
+function esc(s){ return (s||'').toString().replace(/"/g,'&quot;'); }
+
+async function getMoraleLists(){
+  const snap = await getDoc(doc(db,'users',uid,'moraleLists','lists'));
+  return snap.exists()? snap.data() : DEFAULT_MORALE;
 }
 
 /* ---------- tabs ---------- */
 window.switchTab = function(name){
-  ['home','apps','network','tasks','morale','summary'].forEach(t=>{
+  ['home','apps','network','tasks','morale'].forEach(t=>{
     document.getElementById('tab-'+t).classList.toggle('hidden', t!==name);
     document.getElementById('nav-'+t).classList.toggle('active', t===name);
   });
-  if(name==='summary') renderSummary();
 };
 
 /* ---------- render all ---------- */
@@ -431,111 +360,137 @@ async function renderAll(){
   await renderApps();
   await renderNetwork();
   await renderTasks();
-  renderMorale();
+  await renderMorale();
 }
 
 /* ---------- HOME ---------- */
 async function renderHome(){
+  const wId = isoWeekStart(), mId = monthId();
+  const weekSel = await getDoc(doc(db,'users',uid,'weeklyMoraleSelections',wId));
+  const monthSel = await getDoc(doc(db,'users',uid,'monthlyMoraleSelections',mId));
+
+  // banners
+  document.getElementById('weeklyMoraleBanner').innerHTML = weekSel.exists()? '' :
+    `<div class="banner"><p>עדיין לא בחרת פעילויות מורל לשבוע הזה</p><button class="btn btn-sm" onclick="openWeeklySelect()">לבחור עכשיו</button></div>`;
+  document.getElementById('monthlyMoraleBanner').innerHTML = monthSel.exists()? '' :
+    `<div class="banner"><p>עדיין לא בחרת פעילות מורל לחודש הזה</p><button class="btn btn-sm" onclick="openMonthlySelect()">לבחור עכשיו</button></div>`;
+
+  // today's tasks
   const homeTasks = document.getElementById('homeTasks');
   homeTasks.innerHTML = '';
+  const appsSnap = await getDocs(collection(db,'users',uid,'applications'));
   if(isFriday()){
     homeTasks.innerHTML = '<div class="card center" style="color:var(--text-secondary);">יום שישי - יום חופש מחיפוש עבודה 🌿</div>';
   } else {
-    const appsSnap = await getDocs(collection(db,'users',uid,'applications'));
     const weekCount = countThisWeek(appsSnap, 'submittedDate');
-    homeTasks.innerHTML += taskRow('חיפוש והגשת משרות', weekCount+'/3 הגשות השבוע', 'apps');
-    const winsRef = doc(db,'users',uid,'dailyWins',todayStr());
-    const winsSnap = await getDoc(winsRef);
+    homeTasks.innerHTML += `<div class="task-row" onclick="switchTab('apps')" style="cursor:pointer;"><div class="checkbox"></div><div style="flex:1;"><p style="font-weight:500;font-size:14px;">חיפוש והגשת משרות</p><p style="font-size:12px;color:var(--text-secondary);">${weekCount}/3 הגשות השבוע</p></div></div>`;
+    const winsSnap = await getDoc(doc(db,'users',uid,'dailyWins',todayStr()));
     const winsDone = winsSnap.exists() && (winsSnap.data().items||[]).length>=10;
-    homeTasks.innerHTML += `<div class="task-row" onclick="openWinsModal()" style="cursor:pointer;">
-      <div class="checkbox ${winsDone?'checked':''}">${winsDone?'✓':''}</div>
-      <div style="flex:1;"><p style="font-weight:500;font-size:14px;">10 הצלחות היום</p>
-      <p style="font-size:12px;color:var(--text-secondary);">${winsDone? 'הושלם' : 'לשלוח בסוף היום'}</p></div>
-    </div>`;
+    homeTasks.innerHTML += `<div class="task-row" onclick="openWinsModal()" style="cursor:pointer;"><div class="checkbox ${winsDone?'checked':''}">${winsDone?'✓':''}</div><div style="flex:1;"><p style="font-weight:500;font-size:14px;">10 הצלחות היום</p><p style="font-size:12px;color:var(--text-secondary);">${winsDone?'הושלם':'לשלוח בסוף היום'}</p></div></div>`;
   }
 
-  // morale suggestion
-  const shown = JSON.parse(localStorage.getItem('moraleShown')||'[]');
-  const options = MORALE.daily.filter(x=>!shown.includes(x));
-  const pick = (options.length? options : MORALE.daily)[Math.floor(Math.random()*(options.length||MORALE.daily.length))];
-  document.getElementById('homeMorale').innerHTML = `
-    <div class="row"><div style="flex:1;"><p style="font-weight:500;">${pick}</p></div>
-    <button class="btn-ghost" onclick="rerollMorale()">אחר</button></div>`;
-  window.currentMoraleSuggestion = pick;
+  // today's morale
+  const moraleWrap = document.getElementById('homeMorale');
+  if(weekSel.exists() && weekSel.data()[todayDayKey()]){
+    const activity = weekSel.data()[todayDayKey()];
+    const doneSnap = await getDocs(query(collection(db,'users',uid,'moraleLog'), where('date','==',todayStr()), where('level','==','daily')));
+    const done = !doneSnap.empty;
+    moraleWrap.innerHTML = `<div class="row"><div style="flex:1;"><p style="font-weight:500;">${activity}</p></div>
+      <div class="checkbox ${done?'checked':''}" onclick="${done?'':`markMoraleDone('daily','${esc(activity)}')`}">${done?'✓':''}</div></div>`;
+  } else {
+    moraleWrap.innerHTML = `<p style="font-size:13px;color:var(--accent-dark);">בחר פעילויות לשבוע כדי לראות כאן את המורל של היום</p>`;
+  }
 
   // reminders
   const remWrap = document.getElementById('homeReminders');
-  remWrap.innerHTML = '';
   const netSnap = await getDocs(collection(db,'users',uid,'networking'));
-  const appSnap = await getDocs(collection(db,'users',uid,'applications'));
   const taskSnap = await getDocs(collection(db,'users',uid,'tasks'));
   const t = todayStr();
   let reminders = [];
   netSnap.forEach(d=>{ const x=d.data(); if(x.nextFollowUp && x.nextFollowUp<=t) reminders.push('מעקב נטוורקינג: '+x.name); });
-  appSnap.forEach(d=>{ const x=d.data(); if(x.nextFollowUp && x.nextFollowUp<=t) reminders.push('מעקב הגשה: '+x.company); });
+  appsSnap.forEach(d=>{ const x=d.data(); if(x.nextFollowUp && x.nextFollowUp<=t) reminders.push('מעקב הגשה: '+x.company); });
   taskSnap.forEach(d=>{ const x=d.data();
     if(!x.done && x.deadline){
       if(x.deadline<t) reminders.push('⚠ עבר הדדליין: '+x.title);
-      else {
-        const days = Math.ceil((new Date(x.deadline)-new Date(t))/86400000);
-        if(days<=2) reminders.push('דדליין מתקרב: '+x.title+' ('+fmtDate(x.deadline)+')');
-      }
+      else { const days = Math.ceil((new Date(x.deadline)-new Date(t))/86400000); if(days<=2) reminders.push('דדליין מתקרב: '+x.title+' ('+fmtDate(x.deadline)+')'); }
     }
   });
-  if(reminders.length){
-    remWrap.innerHTML = '<div class="card-title">תזכורות</div><div class="card">'+
-      reminders.map(r=>`<p style="font-size:13px;margin-bottom:6px;">${r}</p>`).join('')+'</div>';
-  }
+  remWrap.innerHTML = reminders.length? ('<div class="card-title">תזכורות</div><div class="card">'+reminders.map(r=>`<p style="font-size:13px;margin-bottom:6px;">${r}</p>`).join('')+'</div>') : '';
 
-  // weekly stats
-  document.getElementById('statApps').textContent = countThisWeek(appSnap,'submittedDate')+'/3';
-  document.getElementById('statNet').textContent = countNetThisWeek(netSnap)+'/3';
-  const moraleWeekLog = await getDocs(query(collection(db,'users',uid,'moraleLog'), where('level','==','weekly')));
-  let weekMoraleCount = 0;
-  moraleWeekLog.forEach(d=>{ if(d.data().date >= isoWeekStart()) weekMoraleCount++; });
-  document.getElementById('statMorale').textContent = Math.min(weekMoraleCount,1)+'/1';
+  // weekly network picks
+  const picksWrap = document.getElementById('homeWeeklyPicks');
+  const picks = [];
+  netSnap.forEach(d=>{ const x=d.data(); if(x.plannedThisWeek && x.status!=='שוחחנו') picks.push({id:d.id, ...x}); });
+  if(picks.length){
+    picksWrap.innerHTML = '<div class="card-title">אנשי הקשר לשבוע</div>' + picks.map(p=>`
+      <div class="card row">
+        <div style="flex:1;"><p class="contact-name">${p.name}</p><p class="contact-meta">${p.source||''}</p></div>
+        ${phoneIconHtml(p)}
+        <button class="btn-ghost" onclick="openFollowup('${p.id}')">התקשרתי</button>
+      </div>`).join('');
+  } else { picksWrap.innerHTML=''; }
+
+  // stats
+  document.getElementById('statApps').textContent = countThisWeek(appsSnap,'submittedDate')+'/3';
+  let netContactedThisWeek = 0;
+  netSnap.forEach(d=>{ const x=d.data(); if(x.status==='שוחחנו' && x.firstOutreach && x.firstOutreach>=wId) netContactedThisWeek++; });
+  document.getElementById('statNet').textContent = netContactedThisWeek+'/3';
+  const moraleLogSnap = await getDocs(collection(db,'users',uid,'moraleLog'));
+  let wDone=0, mDone=0;
+  moraleLogSnap.forEach(d=>{ const x=d.data(); if(x.level==='weekly' && x.date>=wId) wDone=1; if(x.level==='monthly' && x.date.slice(0,7)===mId) mDone=1; });
+  document.getElementById('statMoraleW').textContent = wDone+'/1';
+  document.getElementById('statMoraleM').textContent = mDone+'/1';
+
+  window.currentSummary = `סיכום שבועי:\nהגשות משרות: ${countThisWeek(appsSnap,'submittedDate')}/3\nשיחות נטוורקינג: ${netContactedThisWeek}/3\nמורל שבועי: ${wDone?'בוצע':'לא בוצע'}\nמורל חודשי: ${mDone?'בוצע':'לא בוצע'}`;
 }
-function isoWeekStart(){ return startOfWeek().toISOString().slice(0,10); }
-function countThisWeek(snap, field){
-  const ws = isoWeekStart();
-  let c=0;
-  snap.forEach(d=>{ const v=d.data()[field]; if(v && v>=ws) c++; });
-  return c;
-}
-function countNetThisWeek(snap){
-  const ws = isoWeekStart();
-  let c=0;
-  snap.forEach(d=>{ const v=d.data(); if(v.status==='שוחחנו' && v.firstOutreach && v.firstOutreach>=ws) c++; });
-  return c;
-}
-function taskRow(title, sub, tab){
-  return `<div class="task-row" onclick="switchTab('${tab}')" style="cursor:pointer;">
-    <div class="checkbox"></div>
-    <div style="flex:1;"><p style="font-weight:500;font-size:14px;">${title}</p>
-    <p style="font-size:12px;color:var(--text-secondary);">${sub}</p></div>
-  </div>`;
-}
-window.rerollMorale = function(){
-  let shown = JSON.parse(localStorage.getItem('moraleShown')||'[]');
-  shown.push(window.currentMoraleSuggestion);
-  if(shown.length>5) shown.shift();
-  localStorage.setItem('moraleShown', JSON.stringify(shown));
+function countThisWeek(snap, field){ const ws=isoWeekStart(); let c=0; snap.forEach(d=>{ const v=d.data()[field]; if(v && v>=ws) c++; }); return c; }
+window.markMoraleDone = async function(level, activity){
+  await addDoc(collection(db,'users',uid,'moraleLog'), {level, activity, date: todayStr()});
   renderHome();
+};
+window.copySummary = function(){ navigator.clipboard.writeText(window.currentSummary||''); alert('הועתק!'); };
+
+/* ---------- weekly/monthly morale selection ---------- */
+window.openWeeklySelect = async function(){
+  const lists = await getMoraleLists();
+  const opts = lists.daily.map(x=>`<option value="${esc(x)}">${x}</option>`).join('');
+  const wOpts = lists.weekly.map(x=>`<option value="${esc(x)}">${x}</option>`).join('');
+  renderModal(`
+    <h3>בחירת מורל לשבוע</h3>
+    ${DAY_KEYS.map(k=>`<div class="day-row"><span>יום ${DAY_NAMES[k]}</span><select id="d_${k}"><option value="">--</option>${opts}</select></div>`).join('')}
+    <label style="margin-top:8px;">פעילות שבועית</label>
+    <select id="d_weekly"><option value="">--</option>${wOpts}</select>
+    <button class="btn" style="width:100%;margin-top:8px;" onclick="saveWeeklySelect()">שמירה</button>
+  `);
+};
+window.saveWeeklySelect = async function(){
+  const data = {};
+  DAY_KEYS.forEach(k=>{ data[k]=val('d_'+k); });
+  data.weeklyActivity = val('d_weekly');
+  await setDoc(doc(db,'users',uid,'weeklyMoraleSelections',isoWeekStart()), data);
+  closeModal(); renderHome();
+};
+window.openMonthlySelect = async function(){
+  const lists = await getMoraleLists();
+  const opts = lists.monthly.map(x=>`<option value="${esc(x)}">${x}</option>`).join('');
+  renderModal(`
+    <h3>בחירת מורל לחודש</h3>
+    <select id="d_monthly"><option value="">--</option>${opts}</select>
+    <button class="btn" style="width:100%;margin-top:8px;" onclick="saveMonthlySelect()">שמירה</button>
+  `);
+};
+window.saveMonthlySelect = async function(){
+  await setDoc(doc(db,'users',uid,'monthlyMoraleSelections',monthId()), {activity: val('d_monthly')});
+  closeModal(); renderHome();
 };
 
 /* ---------- DAILY WINS ---------- */
 window.openWinsModal = async function(){
-  const ref = doc(db,'users',uid,'dailyWins',todayStr());
-  const snap = await getDoc(ref);
+  const snap = await getDoc(doc(db,'users',uid,'dailyWins',todayStr()));
   const items = snap.exists() ? (snap.data().items||[]) : [];
-  const rows = Array.from({length:10}, (_,i)=>`<input class="winInput" data-i="${i}" placeholder="הצלחה ${i+1}" value="${items[i]?escapeHtml(items[i]):''}">`).join('');
-  renderModal(`
-    <h3>10 הצלחות היום</h3>
-    ${rows}
-    <button class="btn" style="width:100%;" onclick="saveWins()">שמירה</button>
-  `);
+  const rows = Array.from({length:10}, (_,i)=>`<input class="winInput" data-i="${i}" placeholder="הצלחה ${i+1}" value="${esc(items[i]||'')}">`).join('');
+  renderModal(`<h3>10 הצלחות היום</h3>${rows}<button class="btn" style="width:100%;" onclick="saveWins()">שמירה</button>`);
 };
-function escapeHtml(s){ return (s||'').replace(/"/g,'&quot;'); }
 window.saveWins = async function(){
   const items = [...document.querySelectorAll('.winInput')].map(i=>i.value).filter(v=>v.trim());
   await setDoc(doc(db,'users',uid,'dailyWins',todayStr()), {items});
@@ -560,12 +515,11 @@ async function renderApps(){
         <p class="contact-name">${a.company} — ${a.role||''}</p>
         <span class="badge ${badgeClassApp(a.status)}">${a.status}</span>
       </div>
-      <p class="contact-meta">${a.source||''} · הוגש ${fmtDate(a.submittedDate)}</p>
+      <p class="contact-meta">${a.source||''} · הוגש ${fmtDate(a.submittedDate)}${a.nextFollowUp? ' · מעקב '+fmtDate(a.nextFollowUp):''}</p>
+      ${a.notes? `<p class="contact-meta" style="margin-top:4px;">${a.notes}</p>`:''}
       ${match? `<p class="contact-meta" style="color:var(--accent-dark);margin-top:4px;">יש לך את ${match} ברשימת הנטוורקינג בחברה זו</p>`:''}
       <div class="row" style="margin-top:8px;">
-        <select onchange="updateAppStatus('${d.id}', this.value)">
-          ${STATUS_APP.map(s=>`<option ${s===a.status?'selected':''}>${s}</option>`).join('')}
-        </select>
+        <button class="btn-ghost" onclick="openAppEdit('${d.id}')">עריכה</button>
       </div>
     </div>`;
   });
@@ -577,9 +531,6 @@ function badgeClassApp(s){
   if(s==='לא ענו') return 'badge-amber';
   return 'badge-accent';
 }
-window.updateAppStatus = async function(id, status){
-  await updateDoc(doc(db,'users',uid,'applications',id), {status});
-};
 window.openAppModal = function(){
   renderModal(`
     <h3>הוספת הגשה</h3>
@@ -587,19 +538,61 @@ window.openAppModal = function(){
     <label>תפקיד</label><input id="m_role">
     <label>מקור</label><input id="m_source" placeholder="אול ג'ובס / דרושים">
     <label>תאריך הגשה</label><input type="date" id="m_date" value="${todayStr()}">
+    <label>תאריך מעקב הבא</label><input type="date" id="m_next">
+    <label>הערות</label><textarea id="m_notes" rows="2"></textarea>
     <button class="btn" style="width:100%;" onclick="saveApp()">שמירה</button>
   `);
 };
 window.saveApp = async function(){
-  const a = {
-    company: val('m_company'), role: val('m_role'), source: val('m_source'),
-    submittedDate: val('m_date'), status: 'הוגש', industry:null, link:null, contactPerson:null, nextFollowUp:null, notes:null
-  };
+  const a = { company: val('m_company'), role: val('m_role'), source: val('m_source'),
+    submittedDate: val('m_date'), status: 'הוגש', industry:null, link:null, contactPerson:null,
+    nextFollowUp: val('m_next')||null, notes: val('m_notes')||null };
   await addDoc(collection(db,'users',uid,'applications'), a);
+  closeModal(); renderApps(); renderHome();
+};
+window.openAppEdit = async function(id){
+  const snap = await getDoc(doc(db,'users',uid,'applications',id));
+  const a = snap.data();
+  renderModal(`
+    <h3>עריכת הגשה</h3>
+    <label>חברה</label><input id="m_company" value="${esc(a.company)}">
+    <label>תפקיד</label><input id="m_role" value="${esc(a.role)}">
+    <label>סטטוס</label>
+    <select id="m_status">${STATUS_APP.map(s=>`<option ${s===a.status?'selected':''}>${s}</option>`).join('')}</select>
+    <label>תאריך מעקב הבא</label><input type="date" id="m_next" value="${a.nextFollowUp||''}">
+    <label>הערות</label><textarea id="m_notes" rows="2">${esc(a.notes)}</textarea>
+    <button class="btn" style="width:100%;" onclick="saveAppEdit('${id}')">שמירה</button>
+  `);
+};
+window.saveAppEdit = async function(id){
+  await updateDoc(doc(db,'users',uid,'applications',id), {
+    company: val('m_company'), role: val('m_role'), status: val('m_status'),
+    nextFollowUp: val('m_next')||null, notes: val('m_notes')||null
+  });
   closeModal(); renderApps(); renderHome();
 };
 
 /* ---------- NETWORKING ---------- */
+const STATUS_NET = ['לא פניתי עדיין','שוחחנו','ממתין לתשובה','לא רלוונטי'];
+function phoneIconHtml(x){
+  return `<button class="icon-btn" title="התקשרות" onclick='callContact(${JSON.stringify(x.id)},${JSON.stringify(x.name)},${JSON.stringify(x.phone||"")})'>📞</button>`;
+}
+window.callContact = async function(id, name, phone){
+  if(phone){ location.href = 'tel:'+phone; return; }
+  if(navigator.contacts && navigator.contacts.select){
+    try{
+      const props = ['name','tel'];
+      const contacts = await navigator.contacts.select(props, {multiple:false});
+      if(contacts.length && contacts[0].tel && contacts[0].tel.length){
+        const chosen = contacts[0].tel[0];
+        await updateDoc(doc(db,'users',uid,'networking',id), {phone: chosen});
+        location.href = 'tel:'+chosen;
+      }
+    }catch(e){ /* user cancelled */ }
+  } else {
+    alert('אין מספר שמור עבור '+name+'. חפש אותו באנשי הקשר של הטלפון שלך (הדפדפן לא מאפשר חיפוש אוטומטי במכשיר זה).');
+  }
+};
 async function renderNetwork(){
   const snap = await getDocs(collection(db,'users',uid,'networking'));
   const t = todayStr();
@@ -617,54 +610,92 @@ async function renderNetwork(){
   });
   followupWrap.innerHTML = followupsHtml;
 
+  const insightsWrap = document.getElementById('insightsWrap');
+  const withNotes = listItems.filter(x=>x.status==='שוחחנו' && x.notes);
+  insightsWrap.innerHTML = withNotes.length? ('<div class="card-title">תובנות מהשיחות</div><div class="card">'+
+    withNotes.map(x=>`<p style="font-size:13px;margin-bottom:6px;"><b style="font-weight:500;">${x.name}:</b> ${x.notes}</p>`).join('')+'</div>') : '';
+
   const list = document.getElementById('networkList');
   if(!listItems.length){ list.innerHTML='<div class="empty">אין אנשי קשר</div>'; return; }
-  list.innerHTML = listItems.map(x=>`
-    <div class="card">
+  list.innerHTML = listItems.map(x=>{
+    let dotColor = 'var(--red)', badgeCls='badge-red';
+    if(x.status==='שוחחנו'){ dotColor='var(--green)'; badgeCls='badge-green'; }
+    else if(x.plannedThisWeek){ dotColor='var(--blue)'; badgeCls='badge-accent'; }
+    else if(x.status!=='לא פניתי עדיין'){ dotColor='var(--amber)'; badgeCls='badge-amber'; }
+    return `<div class="contact-card">
       <div class="between">
-        <p class="contact-name">${x.name}</p>
-        <span class="badge ${x.status==='שוחחנו'?'badge-green':'badge-accent'}">${x.status}</span>
+        <p class="contact-name"><span class="dot-status" style="background:${dotColor};"></span>${x.name}</p>
+        <span class="badge ${badgeCls}">${x.plannedThisWeek && x.status!=='שוחחנו' ? 'מתוכנן השבוע' : x.status}</span>
       </div>
       <p class="contact-meta">${x.source||''}${x.company? ' · '+x.company:''}</p>
       ${x.notes? `<p class="contact-meta" style="margin-top:4px;">${x.notes}</p>`:''}
-    </div>`).join('');
+      <div class="row" style="margin-top:8px;">
+        ${phoneIconHtml(x)}
+        <button class="btn-ghost" onclick="openNetEdit('${x.id}')">עריכה</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 window.openWeeklyPick = async function(){
   const snap = await getDocs(query(collection(db,'users',uid,'networking'), where('status','==','לא פניתי עדיין')));
   let items = [];
-  snap.forEach(d=>items.push({id:d.id, ...d.data()}));
+  snap.forEach(d=>{ const x=d.data(); if(!x.plannedThisWeek) items.push({id:d.id, ...x}); });
   renderModal(`
-    <h3>מי מעניין אותך להתקשר אליו השבוע? (בחר 3)</h3>
+    <h3>בחר עד 3 אנשים לשבוע</h3>
     <div id="pickList">
       ${items.map(x=>`<label class="row" style="border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;">
-        <input type="checkbox" value="${x.id}" style="width:auto;margin:0;"> <span>${x.name}</span>
+        <input type="checkbox" value="${x.id}" onchange="limitPicks(this)" style="width:auto;margin:0;"> <span>${x.name}</span>
       </label>`).join('')}
     </div>
     <button class="btn" style="width:100%;" onclick="saveWeeklyPick()">שמירה</button>
   `);
 };
+window.limitPicks = function(cb){
+  const checked = document.querySelectorAll('#pickList input:checked');
+  if(checked.length>3){ cb.checked=false; alert('אפשר לבחור עד 3 אנשים'); }
+};
 window.saveWeeklyPick = async function(){
   const checked = [...document.querySelectorAll('#pickList input:checked')].map(i=>i.value);
   const batch = writeBatch(db);
-  checked.forEach(id=>{
-    batch.update(doc(db,'users',uid,'networking',id), {plannedThisWeek:true});
-  });
+  checked.forEach(id=>{ batch.update(doc(db,'users',uid,'networking',id), {plannedThisWeek:true}); });
   await batch.commit();
-  closeModal(); renderNetwork();
+  closeModal(); renderNetwork(); renderHome();
 };
 window.openFollowup = function(id){
   renderModal(`
     <h3>איך הלכה השיחה?</h3>
-    <label>הערות</label><textarea id="m_notes" rows="3"></textarea>
+    <label>הערות / תובנות</label><textarea id="m_notes" rows="3"></textarea>
     <label>סטטוס</label>
-    <select id="m_status"><option>שוחחנו</option><option>ממתין לתשובה</option><option>לא רלוונטי</option></select>
+    <select id="m_status">${STATUS_NET.filter(s=>s!=='לא פניתי עדיין').map(s=>`<option>${s}</option>`).join('')}</select>
     <label>תאריך מעקב הבא</label><input type="date" id="m_next">
     <button class="btn" style="width:100%;" onclick="saveFollowup('${id}')">שמירה</button>
   `);
 };
 window.saveFollowup = async function(id){
   await updateDoc(doc(db,'users',uid,'networking',id), {
-    notes: val('m_notes'), status: val('m_status'), nextFollowUp: val('m_next')||null, firstOutreach: todayStr()
+    notes: val('m_notes'), status: val('m_status'), nextFollowUp: val('m_next')||null,
+    firstOutreach: todayStr(), plannedThisWeek:false
+  });
+  closeModal(); renderNetwork(); renderHome();
+};
+window.openNetEdit = async function(id){
+  const snap = await getDoc(doc(db,'users',uid,'networking',id));
+  const x = snap.data();
+  renderModal(`
+    <h3>עריכת איש קשר</h3>
+    <label>שם</label><input id="m_name" value="${esc(x.name)}">
+    <label>הקשר (מקור)</label><input id="m_source" value="${esc(x.source)}">
+    <label>סטטוס</label>
+    <select id="m_status">${STATUS_NET.map(s=>`<option ${s===x.status?'selected':''}>${s}</option>`).join('')}</select>
+    <label>טלפון (אופציונלי)</label><input id="m_phone" value="${esc(x.phone)}">
+    <label>הערות</label><textarea id="m_notes" rows="2">${esc(x.notes)}</textarea>
+    <button class="btn" style="width:100%;" onclick="saveNetEdit('${id}')">שמירה</button>
+  `);
+};
+window.saveNetEdit = async function(id){
+  await updateDoc(doc(db,'users',uid,'networking',id), {
+    name: val('m_name'), source: val('m_source'), status: val('m_status'),
+    phone: val('m_phone')||null, notes: val('m_notes')||null
   });
   closeModal(); renderNetwork(); renderHome();
 };
@@ -678,7 +709,7 @@ async function renderTasks(){
   snap.forEach(d=>items.push({id:d.id, ...d.data()}));
   if(!items.length){ list.innerHTML='<div class="empty">אין משימות</div>'; return; }
   list.innerHTML = items.map(x=>{
-    let badge = '';
+    let badge='';
     if(x.done) badge = '<span class="badge badge-green">בוצע</span>';
     else if(x.deadline<t) badge = '<span class="badge badge-red">עבר הדדליין</span>';
     else badge = `<span class="badge badge-accent">${fmtDate(x.deadline)}</span>`;
@@ -689,82 +720,36 @@ async function renderTasks(){
     </div>`;
   }).join('');
 }
-window.toggleTask = async function(id, done){
-  await updateDoc(doc(db,'users',uid,'tasks',id), {done});
-  renderTasks(); renderHome();
-};
+window.toggleTask = async function(id, done){ await updateDoc(doc(db,'users',uid,'tasks',id), {done}); renderTasks(); renderHome(); };
 window.openTaskModal = function(){
-  renderModal(`
-    <h3>משימה חדשה</h3>
-    <label>כותרת</label><input id="m_title">
-    <label>דדליין</label><input type="date" id="m_deadline">
-    <button class="btn" style="width:100%;" onclick="saveTask()">שמירה</button>
-  `);
+  renderModal(`<h3>משימה חדשה</h3><label>כותרת</label><input id="m_title"><label>דדליין</label><input type="date" id="m_deadline"><button class="btn" style="width:100%;" onclick="saveTask()">שמירה</button>`);
 };
 window.saveTask = async function(){
   await addDoc(collection(db,'users',uid,'tasks'), {title:val('m_title'), deadline:val('m_deadline'), done:false});
   closeModal(); renderTasks(); renderHome();
 };
 
-/* ---------- MORALE ---------- */
-function renderMorale(){
-  document.getElementById('moraleDaily').innerHTML = moraleListHtml('daily');
-  document.getElementById('moraleWeekly').innerHTML = moraleListHtml('weekly');
-  document.getElementById('moraleMonthly').innerHTML = moraleListHtml('monthly');
-  renderMoraleLog();
+/* ---------- MORALE (list management) ---------- */
+async function renderMorale(){
+  const lists = await getMoraleLists();
+  document.getElementById('moraleDaily').innerHTML = lists.daily.map(x=>`<p style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);">${x}</p>`).join('');
+  document.getElementById('moraleWeekly').innerHTML = lists.weekly.map(x=>`<p style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);">${x}</p>`).join('');
+  document.getElementById('moraleMonthly').innerHTML = lists.monthly.map(x=>`<p style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);">${x}</p>`).join('');
 }
-function moraleListHtml(level){
-  const items = MORALE[level];
-  return items.map(x=>`<div class="between" style="padding:6px 0;border-bottom:1px solid var(--border);">
-    <p style="font-size:13px;">${x}</p>
-    <button class="btn-ghost" onclick="logMorale('${level}', ${JSON.stringify(x)})">עשיתי</button>
-  </div>`).join('');
-}
-window.logMorale = async function(level, activity){
-  await addDoc(collection(db,'users',uid,'moraleLog'), {level, activity, date: todayStr()});
-  renderMoraleLog(); renderHome();
-};
-async function renderMoraleLog(){
-  const snap = await getDocs(collection(db,'users',uid,'moraleLog'));
-  let items = [];
-  snap.forEach(d=>items.push(d.data()));
-  items.sort((a,b)=> b.date.localeCompare(a.date));
-  items = items.slice(0,8);
-  document.getElementById('moraleLog').innerHTML = items.length?
-    items.map(x=>`<p style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">${fmtDate(x.date)} — ${x.activity}</p>`).join('')
-    : '<p class="empty">עדיין לא סימנת פעילויות</p>';
-}
-
-/* ---------- SUMMARY ---------- */
-async function renderSummary(){
-  const appSnap = await getDocs(collection(db,'users',uid,'applications'));
-  const netSnap = await getDocs(collection(db,'users',uid,'networking'));
-  const moraleSnap = await getDocs(collection(db,'users',uid,'moraleLog'));
-  const ws = isoWeekStart();
-  const apps = countThisWeek(appSnap,'submittedDate');
-  const net = countNetThisWeek(netSnap);
-  let morale = 0;
-  moraleSnap.forEach(d=>{ if(d.data().date>=ws) morale++; });
-  document.getElementById('sumApps').textContent = apps;
-  document.getElementById('sumNet').textContent = net;
-  document.getElementById('sumMorale').textContent = morale;
-  window.currentSummary = `סיכום שבועי:\nהגשות משרות: ${apps}\nשיחות נטוורקינג: ${net}\nפעילויות מורל: ${morale}`;
-  document.getElementById('summaryDetail').innerHTML = `<p style="font-size:13px;color:var(--text-secondary);">הנתונים מחושבים מתחילת השבוע (יום ראשון).</p>`;
-}
-window.copySummary = function(){
-  navigator.clipboard.writeText(window.currentSummary||'');
-  alert('הועתק!');
+window.addMoraleItem = async function(level){
+  const inputId = level==='daily'?'newDaily':level==='weekly'?'newWeekly':'newMonthly';
+  const value = val(inputId).trim();
+  if(!value) return;
+  await updateDoc(doc(db,'users',uid,'moraleLists','lists'), { [level]: arrayUnion(value) });
+  document.getElementById(inputId).value='';
+  renderMorale();
 };
 
 /* ---------- modal ---------- */
 function renderModal(inner){
-  document.getElementById('modalRoot').innerHTML = `
-    <div class="modal-bg" onclick="if(event.target===this) closeModal()">
-      <div class="modal">${inner}</div>
-    </div>`;
+  document.getElementById('modalRoot').innerHTML = `<div class="modal-bg" onclick="if(event.target===this) closeModal()"><div class="modal">${inner}</div></div>`;
 }
 window.closeModal = function(){ document.getElementById('modalRoot').innerHTML=''; };
-function val(id){ return document.getElementById(id).value; }
 
 </script>
 </body>
