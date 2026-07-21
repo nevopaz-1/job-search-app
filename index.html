@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>חיפוש עבודה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#007FFF;
+    --accent-light:#E6F1FB;
+    --accent-dark:#0A5FBF;
+    --bg:#F5F7FA;
+    --card:#FFFFFF;
+    --border:#E4E7EB;
+    --text:#1A1A1A;
+    --text-secondary:#6B7280;
+    --text-muted:#9CA3AF;
+    --red:#E24B4A;
+    --red-bg:#FCEBEB;
+    --green:#3B8A3B;
+    --green-bg:#EAF6EA;
+    --amber:#BA7517;
+    --amber-bg:#FAEEDA;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Rubik',sans-serif;
+    background:var(--bg);
+    margin:0;
+    color:var(--text);
+    padding-bottom:70px;
+  }
+  h1,h2,h3{font-weight:700;margin:0;}
+  p{margin:0;}
+  .hidden{display:none !important;}
+  .wrap{max-width:520px;margin:0 auto;padding:16px;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .card-title{font-size:13px;color:var(--text-secondary);font-weight:500;margin-bottom:8px;}
+  .row{display:flex;align-items:center;gap:10px;}
+  .between{display:flex;align-items:center;justify-content:space-between;}
+  .btn{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    padding:11px 18px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-outline{
+    background:#fff;
+    color:var(--accent);
+    border:1.5px solid var(--accent);
+  }
+  .btn-ghost{
+    background:transparent;
+    border:none;
+    color:var(--accent);
+    font-family:inherit;
+    font-weight:500;
+    font-size:13px;
+    cursor:pointer;
+    padding:4px 8px;
+  }
+  .btn-sm{padding:6px 12px;font-size:12px;border-radius:8px;}
+  input,select,textarea{
+    width:100%;
+    font-family:inherit;
+    font-size:14px;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#fff;
+    color:var(--text);
+    margin-bottom:10px;
+  }
+  label{font-size:12px;color:var(--text-secondary);font-weight:500;display:block;margin-bottom:4px;}
+  .badge{
+    font-size:11px;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:20px;
+    display:inline-block;
+  }
+  .badge-accent{background:var(--accent-light);color:var(--accent-dark);}
+  .badge-red{background:var(--red-bg);color:var(--red);}
+  .badge-amber{background:var(--amber-bg);color:var(--amber);}
+  .badge-green{background:var(--green-bg);color:var(--green);}
+  .task-row{
+    display:flex;align-items:center;gap:10px;
+    border:1px solid var(--border);border-radius:12px;
+    padding:12px 14px;margin-bottom:8px;
+  }
+  .checkbox{
+    width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);
+    flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff;
+  }
+  .checkbox.checked{background:var(--accent);}
+  .stat{flex:1;text-align:center;}
+  .stat-num{font-size:22px;font-weight:800;color:var(--accent);}
+  .stat-label{font-size:11px;color:var(--text-secondary);font-weight:500;margin-top:2px;}
+  header.top{
+    background:var(--accent);
+    color:#fff;
+    padding:24px 16px 26px;
+    border-radius:0 0 24px 24px;
+    margin-bottom:16px;
+  }
+  header.top p{opacity:.9;font-size:13px;font-weight:500;}
+  header.top h1{font-size:21px;margin-top:6px;color:#fff;}
+  nav.bottom{
+    position:fixed;bottom:0;left:0;right:0;
+    background:#fff;border-top:1px solid var(--border);
+    display:flex;justify-content:space-around;padding:8px 0;
+    max-width:520px;margin:0 auto;
+  }
+  nav.bottom button{
+    background:none;border:none;font-family:inherit;
+    font-size:11px;color:var(--text-muted);font-weight:500;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    cursor:pointer;padding:4px 8px;
+  }
+  nav.bottom button.active{color:var(--accent);}
+  .dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;}
+  .contact-name{font-weight:500;font-size:14px;}
+  .contact-meta{font-size:12px;color:var(--text-secondary);}
+  .empty{text-align:center;color:var(--text-muted);font-size:13px;padding:24px 0;}
+  .modal-bg{
+    position:fixed;inset:0;background:rgba(0,0,0,.4);
+    display:flex;align-items:flex-end;justify-content:center;z-index:50;
+  }
+  .modal{
+    background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 24px;
+    width:100%;max-width:520px;max-height:85vh;overflow-y:auto;
+  }
+  .modal h3{margin-bottom:14px;}
+  .center{text-align:center;}
+  #authScreen{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  #authScreen .card{width:100%;max-width:380px;}
+  .link-btn{background:none;border:none;color:var(--accent);font-family:inherit;font-weight:500;font-size:13px;cursor:pointer;}
+  .err{color:var(--red);font-size:13px;margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<div id="authScreen">
+  <div class="card">
+    <h1 style="text-align:center;margin-bottom:4px;">חיפוש עבודה</h1>
+    <p style="text-align:center;color:var(--text-secondary);font-size:13px;margin-bottom:20px;">התכנית האישית שלך</p>
+    <div id="authErr" class="err hidden"></div>
+    <label>אימייל</label>
+    <input type="email" id="authEmail" placeholder="you@example.com">
+    <label>סיסמה</label>
+    <input type="password" id="authPass" placeholder="לפחות 6 תווים">
+    <button class="btn" style="width:100%;margin-bottom:10px;" onclick="doSignIn()">התחברות</button>
+    <button class="btn btn-outline" style="width:100%;" onclick="doSignUp()">יצירת חשבון חדש</button>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="top">
+    <p id="todayDate"></p>
+    <h1>היי נבו 👋</h1>
+  </header>
+  <div class="wrap">
+
+    <!-- HOME -->
+    <section id="tab-home">
+      <div class="card-title">משימות היום</div>
+      <div id="homeTasks"></div>
+
+      <div class="card-title" style="margin-top:16px;">מורל היום</div>
+      <div id="homeMorale" class="card" style="background:var(--accent-light);"></div>
+
+      <div id="homeReminders" style="margin-top:16px;"></div>
+
+      <div class="card-title" style="margin-top:16px;">השבוע</div>
+      <div class="card row">
+        <div class="stat"><div class="stat-num" id="statApps">0/3</div><div class="stat-label">הגשות</div></div>
+        <div class="stat" style="border-right:1px solid var(--border);border-left:1px solid var(--border);"><div class="stat-num" id="statNet">0/3</div><div class="stat-label">נטוורקינג</div></div>
+        <div class="stat"><div class="stat-num" id="statMorale">0/1</div><div class="stat-label">מורל שבועי</div></div>
+      </div>
+    </section>
+
+    <!-- APPLICATIONS -->
+    <section id="tab-apps" class="hidden">
+      <div class="between" style="margin-bottom:10px;">
+        <h2>מעקב הגשות</h2>
+        <button class="btn btn-sm" onclick="openAppModal()">+ הוספה</button>
+      </div>
+      <div id="appsList"></div>
+    </section>
+
+    <!-- NETWORKING -->
+    <section id="tab-network" class="hidden">
+      <div class="between" style="margin-bottom:10px;">
+        <h2>נטוורקינג</h2>
+        <button class="btn btn-sm" onclick="openWeeklyPick()">בחירת 3 לשבוע</button>
+      </div>
+      <div id="networkFollowups"></div>
+      <div id="networkList"></div>
+    </section>
+
+    <!-- ONE-TIME TASKS -->
+    <section id="tab-tasks" class="hidden">
+      <div class="between" style="margin-bottom:10px;">
+        <h2>משימות חד-פעמיות</h2>
+        <button class="btn btn-sm" onclick="openTaskModal()">+ הוספה</button>
+      </div>
+      <div id="tasksList"></div>
+    </section>
+
+    <!-- MORALE -->
+    <section id="tab-morale" class="hidden">
+      <h2 style="margin-bottom:10px;">מורל</h2>
+      <div class="card-title">יומי</div>
+      <div class="card" id="moraleDaily"></div>
+      <div class="card-title">שבועי</div>
+      <div class="card" id="moraleWeekly"></div>
+      <div class="card-title">חודשי</div>
+      <div class="card" id="moraleMonthly"></div>
+      <div class="card-title">בוצע לאחרונה</div>
+      <div id="moraleLog"></div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section id="tab-summary" class="hidden">
+      <h2 style="margin-bottom:10px;">סיכום שבועי</h2>
+      <div class="card row">
+        <div class="stat"><div class="stat-num" id="sumApps">0</div><div class="stat-label">הגשות</div></div>
+        <div class="stat" style="border-right:1px solid var(--border);border-left:1px solid var(--border);"><div class="stat-num" id="sumNet">0</div><div class="stat-label">נטוורקינג</div></div>
+        <div class="stat"><div class="stat-num" id="sumMorale">0</div><div class="stat-label">מורל</div></div>
+      </div>
+      <button class="btn btn-outline" style="width:100%;margin-top:12px;" onclick="copySummary()">העתקה לוואטסאפ</button>
+      <div id="summaryDetail" style="margin-top:16px;"></div>
+    </section>
+
+  </div>
+
+  <nav class="bottom">
+    <button id="nav-home" class="active" onclick="switchTab('home')">בית</button>
+    <button id="nav-apps" onclick="switchTab('apps')">הגשות</button>
+    <button id="nav-network" onclick="switchTab('network')">נטוורקינג</button>
+    <button id="nav-tasks" onclick="switchTab('tasks')">משימות</button>
+    <button id="nav-morale" onclick="switchTab('morale')">מורל</button>
+    <button id="nav-summary" onclick="switchTab('summary')">סיכום</button>
+  </nav>
+</div>
+
+<div id="modalRoot"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, collection, doc, setDoc, getDoc, getDocs, addDoc, updateDoc,
+  query, where, writeBatch, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB3PnUXIqHS-hTwRu8Q6nnJsxa_J2fCrhM",
+  authDomain: "finding-my-job.firebaseapp.com",
+  projectId: "finding-my-job",
+  storageBucket: "finding-my-job.firebasestorage.app",
+  messagingSenderId: "497876102464",
+  appId: "1:497876102464:web:e61dc8c2133906ee119ea5"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+
+let uid = null;
+
+/* ---------- static data: morale lists ---------- */
+const MORALE = {
+  daily: ["הליכה אירובית בקיבוץ","לנגן בגיטרה","לצאת עם המצלמה לצלם בשקיעה","כוס קפה בשקט בלי מסכים ובלי ילדים","לבשל משהו טעים או מיוחד","לשבת אצל חבר בערב","להתקשר למישהו שממש בא לי לדבר איתו","ליצור משהו במחשב","להכין לופה למשפחה","10 דקות מתיחות לכל הגוף","לקרוא ספר או פרק אחד","5 דקות נשימות עמוקות עם עיניים עצומות"],
+  weekly: ["יציאה למסעדה או פאב עם חברים","דייט עם אשתי מחוץ לבית","דייט עם אשתי בתוך הבית","ללכת לחוג אייקידו","לראות סרט בטלוויזיה","לשבת על בירה עם חברים בבית של חבר","לנגן עם להקה","ללכת לשחות בבריכה","לנסוע לפגוש חבר ותיק","קמפינג עם הילדים","טיול לנחל או מעיין עם הילדים","לצאת לצלם בערב בשקיעה","לנגן בגיטרה לבד","לסדר או לנקות משהו ספציפי בבית","מנגל עם חברים"],
+  monthly: ["הופעה של זמר או להקה שאני אוהב","סטנדאפ","חופשה עם אשתי","טיול למקום חדש","ערב חברים גדול ומאורגן","מסאז' לגוף","לים","לנחל או מעיין","יום ה'כן' למשפחה","ללמוד משהו חדש (סדנה/חוג/הרצאה)"]
+};
+
+/* ---------- static: excel import seed ---------- */
+const SEED_NETWORK = [
+["אורי לדר","בינוני","חקלאות","מנכ\"ל הדרי ניצנים","חבר",null,"לא פניתי עדיין",null,null],
+["אמיר מרקוס","גבוה","סטרטאפ מוצר","לא ידוע","חבר","2026-07-15","לא פניתי עדיין","2026-07-30","אמר שאם ישמע משהו יעדכן, מוכן לשתף פוסט חיפוש עבודה."],
+["אריאל של קרן","בינוני","משרדי הממשלה",null,"חבר",null,"לא פניתי עדיין",null,null],
+["קרן ברלר","גבוה","משרדי קיבוץ","גיוס כספים","חברה","2026-07-14","שוחחנו","2026-07-25","לארגן לעצמי את הלינקדין - החיפוש עבודה שם!"],
+["יוגב כהן","נמוך","בריכות","בונה/מוכר/מייצר בריכות","חבר",null,"לא פניתי עדיין",null,null],
+["אלון קוברסקי","בינוני","מועצה","החברה הכלכלית - סמנכ\"ל פיתוח עסקי","גיס",null,"לא פניתי עדיין",null,null],
+["אשכר רז","גבוה","חברת השמה","מנהלת ובעלים","חברה","2026-07-20","שוחחנו","2026-07-30","שלחתי לה קו\"ח, אמרה שתחזור אליי אם תשמע על משהו."],
+["גלעד שניר","נמוך","לא ברור",null,"חבר קיבוץ",null,"לא פניתי עדיין",null,null],
+["חן של ירדן","נמוך","הייטק","אינטל","גיס",null,"לא פניתי עדיין",null,null],
+["רהב לניאדו","נמוך","לא ברור",null,"חבר קיבוץ",null,"לא פניתי עדיין",null,null],
+["שי סגל - אבא של רום","נמוך","יין ואלכוהול","מנכ\"ל/בעלים","שכן",null,"לא פניתי עדיין",null,null],
+["אלי בן שימול","גבוה","לא ברור",null,"חבר קיבוץ",null,"לא פניתי עדיין",null,null],
+["רמי ישי","גבוה","שטראוס","מנכ\"ל שטראוס? או בסגנון","חבר קיבוץ",null,"לא פניתי עדיין",null,null],
+["רונית דודה","גבוה","מקושרת",null,"דודה",null,"לא פניתי עדיין",null,null],
+["הדס קהלני","גבוה","מקושרת",null,"חברה",null,"לא פניתי עדיין",null,null],
+["אורטל לדר","גבוה","סטארטאפ",null,"חברה",null,"לא פניתי עדיין",null,null],
+["הילה של סמור","גבוה","תרופות",null,"חברה",null,"לא פניתי עדיין",null,null],
+["עטר","גבוה","דיגיטל הדרכות",null,"אח","2026-07-10","שוחחנו","2026-07-30","אמר שאם ישמע משהו יעדכן, מוכן לשתף פוסט חיפוש עבודה."],
+["דנה גוטפריד","נמוך","לא ברור",null,"חברה",null,"לא פניתי עדיין",null,null],
+["מור הללי","נמוך","שיווק",null,"חבר",null,"לא פניתי עדיין",null,null],
+["ליאת עובדיה","בינוני","גיוס",null,"חברת קיבוץ",null,"לא פניתי עדיין",null,null],
+["עידו שיינברג","נמוך","רכב",null,"חבר מילואים",null,"לא פניתי עדיין",null,null],
+["עינת אושפיז","נמוך","שיווק",null,"עמיתה לעבודה",null,"לא פניתי עדיין",null,null],
+["אלון בן צור","גבוה","הכל",null,"משפחה",null,"לא פניתי עדיין",null,null],
+["שי קסלר","נמוך","טכנולוגיה",null,"חבר",null,"לא פניתי עדיין",null,null],
+["ערן שמואלי","נמוך","מקושר",null,"חבר",null,"לא פניתי עדיין",null,null],
+["דותן שיפוני","גבוה","מועצה אזורית",null,"חבר",null,"לא פניתי עדיין",null,null],
+["מנחם שביט","נמוך","מקושר",null,"חבר ומנטור",null,"לא פניתי עדיין",null,null],
+["גילי בן שימול","בינוני","משאבי אנוש",null,"חברת קיבוץ",null,"לא פניתי עדיין",null,null],
+["רועי כורם ציקי","נמוך","מקושר",null,"חבר",null,"לא פניתי עדיין",null,null],
+["אכ\"ש - אמיר כהן ששון","נמוך","לא ברור",null,"חבר מילואים",null,"לא פניתי עדיין",null,null],
+["מורן בארי","נמוך","לא ברור",null,"חברת קיבוץ",null,"לא פניתי עדיין",null,null],
+["לילי בת דודה","בינוני","דיגיטל","MONDAY","משפחה",null,"לא פניתי עדיין",null,null],
+["אסף בנדור","נמוך","דיגיטל",null,"חבר מילואים",null,"לא פניתי עדיין",null,null],
+["עודד","נמוך","שיווק",null,"חבר מילואים",null,"לא פניתי עדיין",null,null]
+].map(r=>({name:r[0],importance:r[1],industry:r[2],company:r[3],source:r[4],firstOutreach:r[5],status:r[6],nextFollowUp:r[7],notes:r[8]}));
+
+const SEED_APPS = [
+{company:"ONE", industry:"מוצרים דיגיטליים", role:"מתפעל אתרים", link:"https://www.alljobs.co.il/", submittedDate:"2026-07-13", source:"אול ג'ובס", status:"הוגש", contactPerson:null, nextFollowUp:"2026-07-20", notes:null}
+];
+
+const SEED_TASKS = [
+{title:"כתיבת פוסט פייסבוק לחיפוש עבודה", deadline:"2026-07-25", done:false},
+{title:"למידת חיפוש משרות בלינקדין", deadline:"2026-07-23", done:false}
+];
+
+/* ---------- auth ---------- */
+window.doSignIn = async function(){
+  const email = document.getElementById('authEmail').value;
+  const pass = document.getElementById('authPass').value;
+  try{ await signInWithEmailAndPassword(auth, email, pass); }
+  catch(e){ showAuthErr(e.message); }
+};
+window.doSignUp = async function(){
+  const email = document.getElementById('authEmail').value;
+  const pass = document.getElementById('authPass').value;
+  try{ await createUserWithEmailAndPassword(auth, email, pass); }
+  catch(e){ showAuthErr(e.message); }
+};
+function showAuthErr(msg){
+  const el = document.getElementById('authErr');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+
+onAuthStateChanged(auth, async (user)=>{
+  if(user){
+    uid = user.uid;
+    document.getElementById('authScreen').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    await ensureSeed();
+    await renderAll();
+  } else {
+    uid = null;
+    document.getElementById('authScreen').classList.remove('hidden');
+    document.getElementById('app').classList.add('hidden');
+  }
+});
+
+/* ---------- seed import (once) ---------- */
+async function ensureSeed(){
+  const flagRef = doc(db,'users',uid,'meta','seed');
+  const flagSnap = await getDoc(flagRef);
+  if(flagSnap.exists()) return;
+  const batch = writeBatch(db);
+  SEED_NETWORK.forEach(c=>{
+    const ref = doc(collection(db,'users',uid,'networking'));
+    batch.set(ref, c);
+  });
+  SEED_APPS.forEach(a=>{
+    const ref = doc(collection(db,'users',uid,'applications'));
+    batch.set(ref, a);
+  });
+  SEED_TASKS.forEach(t=>{
+    const ref = doc(collection(db,'users',uid,'tasks'));
+    batch.set(ref, t);
+  });
+  batch.set(flagRef, {done:true});
+  await batch.commit();
+}
+
+/* ---------- helpers ---------- */
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function isFriday(){ return new Date().getDay() === 5; }
+function startOfWeek(){
+  const d = new Date();
+  const day = d.getDay(); // 0=Sun
+  d.setDate(d.getDate()-day);
+  d.setHours(0,0,0,0);
+  return d;
+}
+function fmtDate(s){
+  if(!s) return '';
+  const d = new Date(s);
+  return d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'});
+}
+
+/* ---------- tabs ---------- */
+window.switchTab = function(name){
+  ['home','apps','network','tasks','morale','summary'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('hidden', t!==name);
+    document.getElementById('nav-'+t).classList.toggle('active', t===name);
+  });
+  if(name==='summary') renderSummary();
+};
+
+/* ---------- render all ---------- */
+async function renderAll(){
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});
+  await renderHome();
+  await renderApps();
+  await renderNetwork();
+  await renderTasks();
+  renderMorale();
+}
+
+/* ---------- HOME ---------- */
+async function renderHome(){
+  const homeTasks = document.getElementById('homeTasks');
+  homeTasks.innerHTML = '';
+  if(isFriday()){
+    homeTasks.innerHTML = '<div class="card center" style="color:var(--text-secondary);">יום שישי - יום חופש מחיפוש עבודה 🌿</div>';
+  } else {
+    const appsSnap = await getDocs(collection(db,'users',uid,'applications'));
+    const weekCount = countThisWeek(appsSnap, 'submittedDate');
+    homeTasks.innerHTML += taskRow('חיפוש והגשת משרות', weekCount+'/3 הגשות השבוע', 'apps');
+    const winsRef = doc(db,'users',uid,'dailyWins',todayStr());
+    const winsSnap = await getDoc(winsRef);
+    const winsDone = winsSnap.exists() && (winsSnap.data().items||[]).length>=10;
+    homeTasks.innerHTML += `<div class="task-row" onclick="openWinsModal()" style="cursor:pointer;">
+      <div class="checkbox ${winsDone?'checked':''}">${winsDone?'✓':''}</div>
+      <div style="flex:1;"><p style="font-weight:500;font-size:14px;">10 הצלחות היום</p>
+      <p style="font-size:12px;color:var(--text-secondary);">${winsDone? 'הושלם' : 'לשלוח בסוף היום'}</p></div>
+    </div>`;
+  }
+
+  // morale suggestion
+  const shown = JSON.parse(localStorage.getItem('moraleShown')||'[]');
+  const options = MORALE.daily.filter(x=>!shown.includes(x));
+  const pick = (options.length? options : MORALE.daily)[Math.floor(Math.random()*(options.length||MORALE.daily.length))];
+  document.getElementById('homeMorale').innerHTML = `
+    <div class="row"><div style="flex:1;"><p style="font-weight:500;">${pick}</p></div>
+    <button class="btn-ghost" onclick="rerollMorale()">אחר</button></div>`;
+  window.currentMoraleSuggestion = pick;
+
+  // reminders
+  const remWrap = document.getElementById('homeReminders');
+  remWrap.innerHTML = '';
+  const netSnap = await getDocs(collection(db,'users',uid,'networking'));
+  const appSnap = await getDocs(collection(db,'users',uid,'applications'));
+  const taskSnap = await getDocs(collection(db,'users',uid,'tasks'));
+  const t = todayStr();
+  let reminders = [];
+  netSnap.forEach(d=>{ const x=d.data(); if(x.nextFollowUp && x.nextFollowUp<=t) reminders.push('מעקב נטוורקינג: '+x.name); });
+  appSnap.forEach(d=>{ const x=d.data(); if(x.nextFollowUp && x.nextFollowUp<=t) reminders.push('מעקב הגשה: '+x.company); });
+  taskSnap.forEach(d=>{ const x=d.data();
+    if(!x.done && x.deadline){
+      if(x.deadline<t) reminders.push('⚠ עבר הדדליין: '+x.title);
+      else {
+        const days = Math.ceil((new Date(x.deadline)-new Date(t))/86400000);
+        if(days<=2) reminders.push('דדליין מתקרב: '+x.title+' ('+fmtDate(x.deadline)+')');
+      }
+    }
+  });
+  if(reminders.length){
+    remWrap.innerHTML = '<div class="card-title">תזכורות</div><div class="card">'+
+      reminders.map(r=>`<p style="font-size:13px;margin-bottom:6px;">${r}</p>`).join('')+'</div>';
+  }
+
+  // weekly stats
+  document.getElementById('statApps').textContent = countThisWeek(appSnap,'submittedDate')+'/3';
+  document.getElementById('statNet').textContent = countNetThisWeek(netSnap)+'/3';
+  const moraleWeekLog = await getDocs(query(collection(db,'users',uid,'moraleLog'), where('level','==','weekly')));
+  let weekMoraleCount = 0;
+  moraleWeekLog.forEach(d=>{ if(d.data().date >= isoWeekStart()) weekMoraleCount++; });
+  document.getElementById('statMorale').textContent = Math.min(weekMoraleCount,1)+'/1';
+}
+function isoWeekStart(){ return startOfWeek().toISOString().slice(0,10); }
+function countThisWeek(snap, field){
+  const ws = isoWeekStart();
+  let c=0;
+  snap.forEach(d=>{ const v=d.data()[field]; if(v && v>=ws) c++; });
+  return c;
+}
+function countNetThisWeek(snap){
+  const ws = isoWeekStart();
+  let c=0;
+  snap.forEach(d=>{ const v=d.data(); if(v.status==='שוחחנו' && v.firstOutreach && v.firstOutreach>=ws) c++; });
+  return c;
+}
+function taskRow(title, sub, tab){
+  return `<div class="task-row" onclick="switchTab('${tab}')" style="cursor:pointer;">
+    <div class="checkbox"></div>
+    <div style="flex:1;"><p style="font-weight:500;font-size:14px;">${title}</p>
+    <p style="font-size:12px;color:var(--text-secondary);">${sub}</p></div>
+  </div>`;
+}
+window.rerollMorale = function(){
+  let shown = JSON.parse(localStorage.getItem('moraleShown')||'[]');
+  shown.push(window.currentMoraleSuggestion);
+  if(shown.length>5) shown.shift();
+  localStorage.setItem('moraleShown', JSON.stringify(shown));
+  renderHome();
+};
+
+/* ---------- DAILY WINS ---------- */
+window.openWinsModal = async function(){
+  const ref = doc(db,'users',uid,'dailyWins',todayStr());
+  const snap = await getDoc(ref);
+  const items = snap.exists() ? (snap.data().items||[]) : [];
+  const rows = Array.from({length:10}, (_,i)=>`<input class="winInput" data-i="${i}" placeholder="הצלחה ${i+1}" value="${items[i]?escapeHtml(items[i]):''}">`).join('');
+  renderModal(`
+    <h3>10 הצלחות היום</h3>
+    ${rows}
+    <button class="btn" style="width:100%;" onclick="saveWins()">שמירה</button>
+  `);
+};
+function escapeHtml(s){ return (s||'').replace(/"/g,'&quot;'); }
+window.saveWins = async function(){
+  const items = [...document.querySelectorAll('.winInput')].map(i=>i.value).filter(v=>v.trim());
+  await setDoc(doc(db,'users',uid,'dailyWins',todayStr()), {items});
+  closeModal(); renderHome();
+};
+
+/* ---------- APPLICATIONS ---------- */
+const STATUS_APP = ['הוגש','נענה/ראיון','נדחה','לא ענו'];
+async function renderApps(){
+  const snap = await getDocs(collection(db,'users',uid,'applications'));
+  const netSnap = await getDocs(collection(db,'users',uid,'networking'));
+  const netCompanies = {};
+  netSnap.forEach(d=>{ const x=d.data(); if(x.company) netCompanies[x.company]=x.name; });
+  const list = document.getElementById('appsList');
+  if(snap.empty){ list.innerHTML = '<div class="empty">אין הגשות עדיין</div>'; return; }
+  let html='';
+  snap.forEach(d=>{
+    const a = d.data();
+    const match = netCompanies[a.company];
+    html += `<div class="card">
+      <div class="between">
+        <p class="contact-name">${a.company} — ${a.role||''}</p>
+        <span class="badge ${badgeClassApp(a.status)}">${a.status}</span>
+      </div>
+      <p class="contact-meta">${a.source||''} · הוגש ${fmtDate(a.submittedDate)}</p>
+      ${match? `<p class="contact-meta" style="color:var(--accent-dark);margin-top:4px;">יש לך את ${match} ברשימת הנטוורקינג בחברה זו</p>`:''}
+      <div class="row" style="margin-top:8px;">
+        <select onchange="updateAppStatus('${d.id}', this.value)">
+          ${STATUS_APP.map(s=>`<option ${s===a.status?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>`;
+  });
+  list.innerHTML = html;
+}
+function badgeClassApp(s){
+  if(s==='נענה/ראיון') return 'badge-green';
+  if(s==='נדחה') return 'badge-red';
+  if(s==='לא ענו') return 'badge-amber';
+  return 'badge-accent';
+}
+window.updateAppStatus = async function(id, status){
+  await updateDoc(doc(db,'users',uid,'applications',id), {status});
+};
+window.openAppModal = function(){
+  renderModal(`
+    <h3>הוספת הגשה</h3>
+    <label>חברה</label><input id="m_company">
+    <label>תפקיד</label><input id="m_role">
+    <label>מקור</label><input id="m_source" placeholder="אול ג'ובס / דרושים">
+    <label>תאריך הגשה</label><input type="date" id="m_date" value="${todayStr()}">
+    <button class="btn" style="width:100%;" onclick="saveApp()">שמירה</button>
+  `);
+};
+window.saveApp = async function(){
+  const a = {
+    company: val('m_company'), role: val('m_role'), source: val('m_source'),
+    submittedDate: val('m_date'), status: 'הוגש', industry:null, link:null, contactPerson:null, nextFollowUp:null, notes:null
+  };
+  await addDoc(collection(db,'users',uid,'applications'), a);
+  closeModal(); renderApps(); renderHome();
+};
+
+/* ---------- NETWORKING ---------- */
+async function renderNetwork(){
+  const snap = await getDocs(collection(db,'users',uid,'networking'));
+  const t = todayStr();
+  const followupWrap = document.getElementById('networkFollowups');
+  let followupsHtml = '';
+  const listItems = [];
+  snap.forEach(d=>listItems.push({id:d.id, ...d.data()}));
+
+  listItems.filter(x=>x.nextFollowUp && x.nextFollowUp<=t).forEach(x=>{
+    followupsHtml += `<div class="card" style="background:var(--amber-bg);">
+      <p style="font-weight:500;">מעקב: ${x.name}</p>
+      <p class="contact-meta">${x.notes||''}</p>
+      <button class="btn-ghost" onclick="openFollowup('${x.id}')">איך הלכה השיחה?</button>
+    </div>`;
+  });
+  followupWrap.innerHTML = followupsHtml;
+
+  const list = document.getElementById('networkList');
+  if(!listItems.length){ list.innerHTML='<div class="empty">אין אנשי קשר</div>'; return; }
+  list.innerHTML = listItems.map(x=>`
+    <div class="card">
+      <div class="between">
+        <p class="contact-name">${x.name}</p>
+        <span class="badge ${x.status==='שוחחנו'?'badge-green':'badge-accent'}">${x.status}</span>
+      </div>
+      <p class="contact-meta">${x.source||''}${x.company? ' · '+x.company:''}</p>
+      ${x.notes? `<p class="contact-meta" style="margin-top:4px;">${x.notes}</p>`:''}
+    </div>`).join('');
+}
+window.openWeeklyPick = async function(){
+  const snap = await getDocs(query(collection(db,'users',uid,'networking'), where('status','==','לא פניתי עדיין')));
+  let items = [];
+  snap.forEach(d=>items.push({id:d.id, ...d.data()}));
+  renderModal(`
+    <h3>מי מעניין אותך להתקשר אליו השבוע? (בחר 3)</h3>
+    <div id="pickList">
+      ${items.map(x=>`<label class="row" style="border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;">
+        <input type="checkbox" value="${x.id}" style="width:auto;margin:0;"> <span>${x.name}</span>
+      </label>`).join('')}
+    </div>
+    <button class="btn" style="width:100%;" onclick="saveWeeklyPick()">שמירה</button>
+  `);
+};
+window.saveWeeklyPick = async function(){
+  const checked = [...document.querySelectorAll('#pickList input:checked')].map(i=>i.value);
+  const batch = writeBatch(db);
+  checked.forEach(id=>{
+    batch.update(doc(db,'users',uid,'networking',id), {plannedThisWeek:true});
+  });
+  await batch.commit();
+  closeModal(); renderNetwork();
+};
+window.openFollowup = function(id){
+  renderModal(`
+    <h3>איך הלכה השיחה?</h3>
+    <label>הערות</label><textarea id="m_notes" rows="3"></textarea>
+    <label>סטטוס</label>
+    <select id="m_status"><option>שוחחנו</option><option>ממתין לתשובה</option><option>לא רלוונטי</option></select>
+    <label>תאריך מעקב הבא</label><input type="date" id="m_next">
+    <button class="btn" style="width:100%;" onclick="saveFollowup('${id}')">שמירה</button>
+  `);
+};
+window.saveFollowup = async function(id){
+  await updateDoc(doc(db,'users',uid,'networking',id), {
+    notes: val('m_notes'), status: val('m_status'), nextFollowUp: val('m_next')||null, firstOutreach: todayStr()
+  });
+  closeModal(); renderNetwork(); renderHome();
+};
+
+/* ---------- ONE-TIME TASKS ---------- */
+async function renderTasks(){
+  const snap = await getDocs(collection(db,'users',uid,'tasks'));
+  const t = todayStr();
+  const list = document.getElementById('tasksList');
+  let items = [];
+  snap.forEach(d=>items.push({id:d.id, ...d.data()}));
+  if(!items.length){ list.innerHTML='<div class="empty">אין משימות</div>'; return; }
+  list.innerHTML = items.map(x=>{
+    let badge = '';
+    if(x.done) badge = '<span class="badge badge-green">בוצע</span>';
+    else if(x.deadline<t) badge = '<span class="badge badge-red">עבר הדדליין</span>';
+    else badge = `<span class="badge badge-accent">${fmtDate(x.deadline)}</span>`;
+    return `<div class="task-row">
+      <div class="checkbox ${x.done?'checked':''}" onclick="toggleTask('${x.id}', ${!x.done})">${x.done?'✓':''}</div>
+      <div style="flex:1;"><p style="font-weight:500;font-size:14px; ${x.done?'text-decoration:line-through;color:var(--text-muted);':''}">${x.title}</p></div>
+      ${badge}
+    </div>`;
+  }).join('');
+}
+window.toggleTask = async function(id, done){
+  await updateDoc(doc(db,'users',uid,'tasks',id), {done});
+  renderTasks(); renderHome();
+};
+window.openTaskModal = function(){
+  renderModal(`
+    <h3>משימה חדשה</h3>
+    <label>כותרת</label><input id="m_title">
+    <label>דדליין</label><input type="date" id="m_deadline">
+    <button class="btn" style="width:100%;" onclick="saveTask()">שמירה</button>
+  `);
+};
+window.saveTask = async function(){
+  await addDoc(collection(db,'users',uid,'tasks'), {title:val('m_title'), deadline:val('m_deadline'), done:false});
+  closeModal(); renderTasks(); renderHome();
+};
+
+/* ---------- MORALE ---------- */
+function renderMorale(){
+  document.getElementById('moraleDaily').innerHTML = moraleListHtml('daily');
+  document.getElementById('moraleWeekly').innerHTML = moraleListHtml('weekly');
+  document.getElementById('moraleMonthly').innerHTML = moraleListHtml('monthly');
+  renderMoraleLog();
+}
+function moraleListHtml(level){
+  const items = MORALE[level];
+  return items.map(x=>`<div class="between" style="padding:6px 0;border-bottom:1px solid var(--border);">
+    <p style="font-size:13px;">${x}</p>
+    <button class="btn-ghost" onclick="logMorale('${level}', ${JSON.stringify(x)})">עשיתי</button>
+  </div>`).join('');
+}
+window.logMorale = async function(level, activity){
+  await addDoc(collection(db,'users',uid,'moraleLog'), {level, activity, date: todayStr()});
+  renderMoraleLog(); renderHome();
+};
+async function renderMoraleLog(){
+  const snap = await getDocs(collection(db,'users',uid,'moraleLog'));
+  let items = [];
+  snap.forEach(d=>items.push(d.data()));
+  items.sort((a,b)=> b.date.localeCompare(a.date));
+  items = items.slice(0,8);
+  document.getElementById('moraleLog').innerHTML = items.length?
+    items.map(x=>`<p style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">${fmtDate(x.date)} — ${x.activity}</p>`).join('')
+    : '<p class="empty">עדיין לא סימנת פעילויות</p>';
+}
+
+/* ---------- SUMMARY ---------- */
+async function renderSummary(){
+  const appSnap = await getDocs(collection(db,'users',uid,'applications'));
+  const netSnap = await getDocs(collection(db,'users',uid,'networking'));
+  const moraleSnap = await getDocs(collection(db,'users',uid,'moraleLog'));
+  const ws = isoWeekStart();
+  const apps = countThisWeek(appSnap,'submittedDate');
+  const net = countNetThisWeek(netSnap);
+  let morale = 0;
+  moraleSnap.forEach(d=>{ if(d.data().date>=ws) morale++; });
+  document.getElementById('sumApps').textContent = apps;
+  document.getElementById('sumNet').textContent = net;
+  document.getElementById('sumMorale').textContent = morale;
+  window.currentSummary = `סיכום שבועי:\nהגשות משרות: ${apps}\nשיחות נטוורקינג: ${net}\nפעילויות מורל: ${morale}`;
+  document.getElementById('summaryDetail').innerHTML = `<p style="font-size:13px;color:var(--text-secondary);">הנתונים מחושבים מתחילת השבוע (יום ראשון).</p>`;
+}
+window.copySummary = function(){
+  navigator.clipboard.writeText(window.currentSummary||'');
+  alert('הועתק!');
+};
+
+/* ---------- modal ---------- */
+function renderModal(inner){
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modal-bg" onclick="if(event.target===this) closeModal()">
+      <div class="modal">${inner}</div>
+    </div>`;
+}
+window.closeModal = function(){ document.getElementById('modalRoot').innerHTML=''; };
+function val(id){ return document.getElementById(id).value; }
+
+</script>
+</body>
+</html>
