@@ -76,21 +76,7 @@
 </head>
 <body>
 
-<div id="authScreen">
-  <div class="card">
-    <h1 style="text-align:center;margin-bottom:4px;">חיפוש עבודה</h1>
-    <p style="text-align:center;color:var(--text-secondary);font-size:13px;margin-bottom:20px;">התכנית האישית שלך</p>
-    <div id="authErr" class="err hidden"></div>
-    <label>אימייל</label>
-    <input type="email" id="authEmail" placeholder="you@example.com">
-    <label>סיסמה</label>
-    <input type="password" id="authPass" placeholder="לפחות 6 תווים">
-    <button class="btn" style="width:100%;margin-bottom:10px;" onclick="doSignIn()">התחברות</button>
-    <button class="btn btn-outline" style="width:100%;" onclick="doSignUp()">יצירת חשבון חדש</button>
-  </div>
-</div>
-
-<div id="app" class="hidden">
+<div id="app">
   <header class="top">
     <p id="todayDate"></p>
     <h1>היי נבו 👋</h1>
@@ -102,22 +88,27 @@
       <div id="weeklyMoraleBanner"></div>
       <div id="monthlyMoraleBanner"></div>
 
+      <div id="homeReminders"></div>
+
       <div class="card-title">משימות היום</div>
       <div id="homeTasks"></div>
 
       <div class="card-title" style="margin-top:16px;">מורל</div>
       <div id="homeMorale"></div>
 
-      <div id="homeReminders" style="margin-top:16px;"></div>
-
       <div id="homeWeeklyPicks" style="margin-top:16px;"></div>
 
       <div class="card-title" style="margin-top:16px;">השבוע והחודש</div>
-      <div class="card row">
-        <div class="stat"><div class="stat-num" id="statApps">0/3</div><div class="stat-label">הגשות</div></div>
-        <div class="stat" style="border-right:1px solid var(--border);border-left:1px solid var(--border);"><div class="stat-num" id="statNet">0/3</div><div class="stat-label">נטוורקינג</div></div>
-        <div class="stat" style="border-left:1px solid var(--border);"><div class="stat-num" id="statMoraleW">0/1</div><div class="stat-label">מורל שבועי</div></div>
-        <div class="stat"><div class="stat-num" id="statMoraleM">0/1</div><div class="stat-label">מורל חודשי</div></div>
+      <div class="card">
+        <div class="row" style="margin-bottom:8px;">
+          <div class="stat"><div class="stat-num" id="statApps">0/3</div><div class="stat-label">הגשת קו"ח שבועית</div></div>
+          <div class="stat"><div class="stat-num" id="statNet">0/0</div><div class="stat-label">נטוורקינג השבוע</div></div>
+          <div class="stat"><div class="stat-num" id="statMoraleDaily">0/7</div><div class="stat-label">מורל יומי</div></div>
+        </div>
+        <div class="row" style="border-top:1px solid var(--border);padding-top:8px;">
+          <div class="stat"><div class="stat-num" id="statMoraleW">0/1</div><div class="stat-label">מורל שבועי</div></div>
+          <div class="stat"><div class="stat-num" id="statMoraleM">0/1</div><div class="stat-label">מורל חודשי</div></div>
+        </div>
       </div>
       <button class="btn btn-outline" style="width:100%;" onclick="copySummary()">העתקה לוואטסאפ למאמנת</button>
     </section>
@@ -162,6 +153,12 @@
     <section id="tab-morale" class="hidden">
       <h2 style="margin-bottom:4px;">מורל</h2>
       <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">ניהול רשימות הפעילויות. הבחירה השבועית/חודשית מתבצעת בדף הבית.</p>
+      <div class="card-title">מצב נוכחי</div>
+      <div class="card row" style="background:var(--accent-light);margin-bottom:16px;">
+        <div class="stat"><div class="stat-num" id="moraleStatDaily">0/7</div><div class="stat-label">מורל יומי השבוע</div></div>
+        <div class="stat" style="border-right:1px solid var(--border);border-left:1px solid var(--border);"><div class="stat-num" id="moraleStatWeekly">✗</div><div class="stat-label">מורל שבועי</div></div>
+        <div class="stat"><div class="stat-num" id="moraleStatMonthly">✗</div><div class="stat-label">מורל חודשי</div></div>
+      </div>
       <div class="card-title">יומי</div>
       <div class="card" id="moraleDaily"></div>
       <div class="row" style="margin-bottom:16px;">
@@ -198,9 +195,6 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {
   getFirestore, collection, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
   query, where, writeBatch, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -215,9 +209,8 @@ const firebaseConfig = {
 };
 
 const fbApp = initializeApp(firebaseConfig);
-const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
-let uid = null;
+const uid = 'chbN249QN4UwLiOkEfbYlu2DTur2'; // fixed to Nevo's existing Firebase UID - preserves all data already entered, shared with his coach via the same link
 let netFilter = 'all';
 
 const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'];
@@ -276,50 +269,11 @@ const SEED_TASKS = [
 {title:"למידת חיפוש משרות בלינקדין", deadline:"2026-07-23", done:false}
 ];
 
-/* ---------- auth ---------- */
-window.doSignIn = async function(){
-  const email = document.getElementById('authEmail').value.trim();
-  const pass = document.getElementById('authPass').value.trim();
-  if(!email || !pass){ showAuthErr('נא למלא אימייל וסיסמה'); return; }
-  try{ await signInWithEmailAndPassword(auth, email, pass); }
-  catch(e){ showAuthErr(friendlyErr(e)); }
-};
-window.doSignUp = async function(){
-  const email = document.getElementById('authEmail').value.trim();
-  const pass = document.getElementById('authPass').value.trim();
-  if(!email || !pass){ showAuthErr('נא למלא אימייל וסיסמה'); return; }
-  if(pass.length<6){ showAuthErr('הסיסמה צריכה להיות לפחות 6 תווים'); return; }
-  try{ await createUserWithEmailAndPassword(auth, email, pass); }
-  catch(e){ showAuthErr(friendlyErr(e)); }
-};
-function friendlyErr(e){
-  const m = e.message||'';
-  if(m.includes('invalid-email')) return 'כתובת האימייל לא תקינה';
-  if(m.includes('email-already-in-use')) return 'כבר יש חשבון עם האימייל הזה - נסה להתחבר';
-  if(m.includes('weak-password')) return 'הסיסמה חלשה מדי - לפחות 6 תווים';
-  if(m.includes('wrong-password') || m.includes('invalid-credential')) return 'אימייל או סיסמה שגויים';
-  if(m.includes('user-not-found')) return 'לא נמצא חשבון עם האימייל הזה';
-  return m;
-}
-function showAuthErr(msg){
-  const el = document.getElementById('authErr');
-  el.textContent = msg;
-  el.classList.remove('hidden');
-}
-
-onAuthStateChanged(auth, async (user)=>{
-  if(user){
-    uid = user.uid;
-    document.getElementById('authScreen').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    await ensureSeed();
-    await renderAll();
-  } else {
-    uid = null;
-    document.getElementById('authScreen').classList.remove('hidden');
-    document.getElementById('app').classList.add('hidden');
-  }
-});
+/* ---------- startup (no login - shared data, anyone with the link) ---------- */
+(async function start(){
+  await ensureSeed();
+  await renderAll();
+})();
 
 /* ---------- seed import (once) ---------- */
 async function ensureSeed(){
@@ -447,7 +401,10 @@ async function renderHome(){
       else { const days = Math.ceil((new Date(x.deadline)-new Date(t))/86400000); if(days<=2) reminders.push('דדליין מתקרב: '+x.title+' ('+fmtDate(x.deadline)+')'); }
     }
   });
-  remWrap.innerHTML = reminders.length? ('<div class="card-title">תזכורות</div><div class="card">'+reminders.map(r=>`<p style="font-size:13px;margin-bottom:6px;">${r}</p>`).join('')+'</div>') : '';
+  remWrap.innerHTML = reminders.length? (`<div class="card" style="background:var(--red-bg);border-color:var(--red);margin-bottom:16px;">
+    <p style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px;">תזכורות</p>
+    ${reminders.map(r=>`<p style="font-size:13px;color:#791F1F;margin-bottom:4px;">${r}</p>`).join('')}
+  </div>`) : '';
 
   // weekly network picks
   const picksWrap = document.getElementById('homeWeeklyPicks');
@@ -463,22 +420,33 @@ async function renderHome(){
   } else { picksWrap.innerHTML=''; }
 
   document.getElementById('statApps').textContent = countThisWeek(appsSnap,'submittedDate')+'/3';
-  let netContactedThisWeek = 0;
-  netSnap.forEach(d=>{ const x=d.data(); if(x.status==='שוחחנו' && x.firstOutreach && x.firstOutreach>=wId) netContactedThisWeek++; });
-  document.getElementById('statNet').textContent = netContactedThisWeek+'/3';
+  let netPlannedThisWeek = 0, netContactedThisWeek = 0;
+  netSnap.forEach(d=>{
+    const x=d.data();
+    if(x.plannedWeekId===wId) netPlannedThisWeek++;
+    if(x.status==='שוחחנו' && x.firstOutreach && x.firstOutreach>=wId) netContactedThisWeek++;
+  });
+  document.getElementById('statNet').textContent = netContactedThisWeek+'/'+netPlannedThisWeek;
   const wDone = await isMoraleDone('weekly', wId) ? 1 : 0;
   const mDone = await isMoraleDone('monthly', mId) ? 1 : 0;
+  let dailyDoneCount = 0;
+  const dailyChecks = await Promise.all(Array.from({length:7}, (_,i)=>{
+    const d = new Date(startOfWeek(0)); d.setDate(d.getDate()+i);
+    return isMoraleDone('daily', d.toISOString().slice(0,10));
+  }));
+  dailyDoneCount = dailyChecks.filter(Boolean).length;
+  document.getElementById('statMoraleDaily').textContent = dailyDoneCount+'/7';
   document.getElementById('statMoraleW').textContent = wDone+'/1';
   document.getElementById('statMoraleM').textContent = mDone+'/1';
 
-  window.currentSummary = `סיכום שבועי:\nהגשות משרות: ${countThisWeek(appsSnap,'submittedDate')}/3\nשיחות נטוורקינג: ${netContactedThisWeek}/3\nמורל שבועי: ${wDone?'בוצע':'לא בוצע'}\nמורל חודשי: ${mDone?'בוצע':'לא בוצע'}`;
+  window.currentSummary = `סיכום שבועי:\nהגשות משרות: ${countThisWeek(appsSnap,'submittedDate')}/3\nשיחות נטוורקינג: ${netContactedThisWeek}/${netPlannedThisWeek}\nמורל יומי: ${dailyDoneCount}/7\nמורל שבועי: ${wDone?'בוצע':'לא בוצע'}\nמורל חודשי: ${mDone?'בוצע':'לא בוצע'}`;
 }
 function moraleCardHtml(label, activity, done, toggleCall, changeCall){
   return `<div class="morale-card">
     <div class="row">
-      <div class="checkbox ${done?'checked':''}" onclick="${toggleCall}">${done?'✓':''}</div>
+      <div class="checkbox ${done?'checked':''}" onclick='${toggleCall}'>${done?'✓':''}</div>
       <div style="flex:1;"><p style="font-size:11px;color:var(--accent-dark);font-weight:500;">${label}</p><p style="font-weight:500;">${activity}</p></div>
-      <button class="btn-ghost" onclick="${changeCall}">שינוי</button>
+      <button class="btn-ghost" onclick='${changeCall}'>שינוי</button>
     </div>
   </div>`;
 }
@@ -820,6 +788,15 @@ async function renderMorale(){
   document.getElementById('moraleDaily').innerHTML = lists.daily.map(x=>`<p style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);">${x}</p>`).join('');
   document.getElementById('moraleWeekly').innerHTML = lists.weekly.map(x=>`<p style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);">${x}</p>`).join('');
   document.getElementById('moraleMonthly').innerHTML = lists.monthly.map(x=>`<p style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);">${x}</p>`).join('');
+
+  const wId = isoWeekStart(), mId = monthId();
+  const dailyChecks = await Promise.all(Array.from({length:7}, (_,i)=>{
+    const d = new Date(startOfWeek(0)); d.setDate(d.getDate()+i);
+    return isMoraleDone('daily', d.toISOString().slice(0,10));
+  }));
+  document.getElementById('moraleStatDaily').textContent = dailyChecks.filter(Boolean).length+'/7';
+  document.getElementById('moraleStatWeekly').textContent = (await isMoraleDone('weekly', wId)) ? '✓' : '✗';
+  document.getElementById('moraleStatMonthly').textContent = (await isMoraleDone('monthly', mId)) ? '✓' : '✗';
 }
 window.addMoraleItem = async function(level){
   const inputId = level==='daily'?'newDaily':level==='weekly'?'newWeekly':'newMonthly';
