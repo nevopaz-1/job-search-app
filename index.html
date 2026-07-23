@@ -819,6 +819,7 @@ async function renderTasks(){
       <div class="checkbox ${x.done?'checked':''}" onclick="toggleTask('${x.id}', ${!x.done})">${x.done?'✓':''}</div>
       <div style="flex:1;"><p style="font-weight:500;font-size:14px; ${x.done?'text-decoration:line-through;color:var(--text-muted);':''}">${x.title}</p></div>
       ${badge}
+      <button class="btn-ghost" onclick="openTaskEdit('${x.id}')">עריכה</button>
     </div>`;
   }).join('');
 }
@@ -828,6 +829,25 @@ window.openTaskModal = function(){
 };
 window.saveTask = async function(){
   await addDoc(collection(db,'users',uid,'tasks'), {title:val('m_title'), deadline:val('m_deadline'), done:false});
+  closeModal(); renderTasks(); renderHome();
+};
+window.openTaskEdit = async function(id){
+  const snap = await getDoc(doc(db,'users',uid,'tasks',id));
+  const x = snap.data();
+  renderModal(`
+    <h3>עריכת משימה</h3>
+    <label>כותרת</label><input id="m_title" value="${esc(x.title)}">
+    <label>דדליין</label><input type="date" id="m_deadline" value="${x.deadline||''}">
+    <button class="btn" style="width:100%;margin-bottom:8px;" onclick="saveTaskEdit('${id}')">שמירה</button>
+    <button class="btn btn-outline" style="width:100%;" onclick="deleteTask('${id}')">מחיקת משימה</button>
+  `);
+};
+window.saveTaskEdit = async function(id){
+  await updateDoc(doc(db,'users',uid,'tasks',id), {title: val('m_title'), deadline: val('m_deadline')||null});
+  closeModal(); renderTasks(); renderHome();
+};
+window.deleteTask = async function(id){
+  await deleteDoc(doc(db,'users',uid,'tasks',id));
   closeModal(); renderTasks(); renderHome();
 };
 
