@@ -56,8 +56,9 @@
   header.top{background:var(--accent);color:#fff;padding:24px 16px 26px;border-radius:0 0 24px 24px;margin-bottom:16px;}
   header.top p{opacity:.9;font-size:13px;font-weight:500;}
   header.top h1{font-size:21px;margin-top:6px;color:#fff;}
-  nav.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0;max-width:520px;margin:0 auto;}
-  nav.bottom button{background:none;border:none;font-family:inherit;font-size:11px;color:var(--text-muted);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 8px;}
+  nav.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:12px 0;max-width:520px;margin:0 auto;}
+  nav.bottom button{background:none;border:none;font-family:inherit;font-size:11px;color:var(--text-muted);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 8px;flex:1;position:relative;}
+  nav.bottom button:not(:last-child)::after{content:'';position:absolute;left:0;top:-6px;bottom:-6px;width:1px;background:var(--border);}
   nav.bottom button.active{color:var(--accent);}
   .contact-name{font-weight:500;font-size:14px;}
   .contact-meta{font-size:12px;color:var(--text-secondary);}
@@ -85,7 +86,13 @@
 
 <div id="app">
   <header class="top">
-    <p id="todayDate"></p>
+    <div class="between">
+      <button id="datePrev" title="יום קודם" onclick="shiftDate(-1)" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;">‹</button>
+      <div style="text-align:center;">
+        <p id="todayDate"></p>
+      </div>
+      <button id="dateNext" title="יום הבא" onclick="shiftDate(1)" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;">›</button>
+    </div>
     <h1>היי נבו 👋</h1>
   </header>
   <div class="wrap">
@@ -190,7 +197,7 @@
 
   <nav class="bottom">
     <button id="nav-home" class="active" onclick="switchTab('home')">בית</button>
-    <button id="nav-apps" onclick="switchTab('apps')">הגשות</button>
+    <button id="nav-apps" onclick="switchTab('apps')">קו"ח</button>
     <button id="nav-network" onclick="switchTab('network')">נטוורקינג</button>
     <button id="nav-tasks" onclick="switchTab('tasks')">משימות</button>
     <button id="nav-morale" onclick="switchTab('morale')">מורל</button>
@@ -219,6 +226,7 @@ const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
 const uid = 'chbN249QN4UwLiOkEfbYlu2DTur2'; // fixed to Nevo's existing Firebase UID - preserves all data already entered, shared with his coach via the same link
 let netFilter = 'all';
+let selectedDate = null; // set to todayStr() on start; navigable via shiftDate()
 
 const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'];
 const DAY_NAMES = {sun:'א׳',mon:'ב׳',tue:'ג׳',wed:'ד׳',thu:'ה׳',fri:'ו׳',sat:'ש׳'};
@@ -278,6 +286,7 @@ const SEED_TASKS = [
 
 /* ---------- startup (no login - shared data, anyone with the link) ---------- */
 (async function start(){
+  selectedDate = todayStr();
   await ensureSeed();
   await renderAll();
 })();
@@ -305,6 +314,15 @@ function isoNextWeekStart(){ return startOfWeek(7).toISOString().slice(0,10); }
 function monthId(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
 function todayDayKey(){ return DAY_KEYS[new Date().getDay()]; }
 function fmtDate(s){ if(!s) return ''; const d=new Date(s); return d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'}); }
+function dayKeyFor(dateStr){ return DAY_KEYS[new Date(dateStr+'T12:00:00').getDay()]; }
+function weekStartFor(dateStr){ const d=new Date(dateStr+'T12:00:00'); d.setDate(d.getDate()-d.getDay()); d.setHours(0,0,0,0); return d.toISOString().slice(0,10); }
+function addDays(dateStr, n){ const d=new Date(dateStr+'T12:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+window.shiftDate = function(delta){
+  const next = addDays(selectedDate, delta);
+  if(next > todayStr()) return; // can't go into the future
+  selectedDate = next;
+  renderHome();
+};
 function val(id){ return document.getElementById(id).value; }
 function esc(s){ return (s||'').toString().replace(/"/g,'&quot;'); }
 
@@ -348,9 +366,20 @@ window.toggleMoraleDone = async function(level, key, activity){
 /* ---------- HOME ---------- */
 async function renderHome(){
   const wId = isoWeekStart(), mId = monthId();
+  const isToday = selectedDate === todayStr();
+  document.getElementById('todayDate').textContent = isToday
+    ? new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'})
+    : new Date(selectedDate+'T12:00:00').toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('dateNext').style.opacity = isToday ? '0.4' : '1';
+  document.getElementById('dateNext').disabled = isToday;
+
+  const selWeekId = weekStartFor(selectedDate);
+  const selDayKey = dayKeyFor(selectedDate);
+  const selWeekRef = doc(db,'users',uid,'weeklyMoraleSelections',selWeekId);
   const weekRef = doc(db,'users',uid,'weeklyMoraleSelections',wId);
   const monthRef = doc(db,'users',uid,'monthlyMoraleSelections',mId);
-  const weekSel = await getDoc(weekRef);
+  const selWeekSel = selWeekId===wId ? await getDoc(weekRef) : await getDoc(selWeekRef);
+  const weekSel = selWeekId===wId ? selWeekSel : await getDoc(weekRef);
   const monthSel = await getDoc(monthRef);
   const lists = await getMoraleLists();
 
@@ -362,25 +391,25 @@ async function renderHome(){
   const homeTasks = document.getElementById('homeTasks');
   homeTasks.innerHTML = '';
   const appsSnap = await getDocs(collection(db,'users',uid,'applications'));
-  if(isFriday()){
+  if(isToday && isFriday()){
     homeTasks.innerHTML = '<div class="card center" style="color:var(--text-secondary);">יום שישי - יום חופש מחיפוש עבודה 🌿</div>';
-  } else {
+  } else if(isToday){
     const weekCount = countThisWeek(appsSnap, 'submittedDate');
     homeTasks.innerHTML += `<div class="task-row" onclick="switchTab('apps')" style="cursor:pointer;"><div class="checkbox"></div><div style="flex:1;"><p style="font-weight:500;font-size:14px;">חיפוש והגשת משרות</p><p style="font-size:12px;color:var(--text-secondary);">${weekCount}/3 הגשות השבוע</p></div></div>`;
-    const winsSnap = await getDoc(doc(db,'users',uid,'dailyWins',todayStr()));
-    const winsDone = winsSnap.exists() && (winsSnap.data().items||[]).length>=10;
-    homeTasks.innerHTML += `<div class="task-row" onclick="openWinsModal()" style="cursor:pointer;"><div class="checkbox ${winsDone?'checked':''}">${winsDone?'✓':''}</div><div style="flex:1;"><p style="font-weight:500;font-size:14px;">10 הצלחות היום</p><p style="font-size:12px;color:var(--text-secondary);">${winsDone?'הושלם':'לשלוח בסוף היום'}</p></div></div>`;
   }
+  const winsSnap = await getDoc(doc(db,'users',uid,'dailyWins',selectedDate));
+  const winsDone = winsSnap.exists() && (winsSnap.data().items||[]).length>=10;
+  homeTasks.innerHTML += `<div class="task-row" onclick="openWinsModal()" style="cursor:pointer;"><div class="checkbox ${winsDone?'checked':''}">${winsDone?'✓':''}</div><div style="flex:1;"><p style="font-weight:500;font-size:14px;">10 הצלחות ${isToday?'היום':'- '+fmtDate(selectedDate)}</p><p style="font-size:12px;color:var(--text-secondary);">${winsDone?'הושלם':'לשלוח בסוף היום'}</p></div></div>`;
 
-  // morale cards: daily / weekly / monthly
+  // morale cards: daily (for selectedDate) / weekly / monthly (always current week/month)
   const moraleWrap = document.getElementById('homeMorale');
   let moraleHtml = '';
-  const dailyActivity = weekSel.exists() ? weekSel.data()[todayDayKey()] : null;
+  const dailyActivity = weekSel.exists() ? weekSel.data()[selDayKey] : null;
   if(dailyActivity){
-    const done = await isMoraleDone('daily', todayStr());
-    moraleHtml += moraleCardHtml('היום', dailyActivity, done, 'daily', todayStr());
+    const done = await isMoraleDone('daily', selectedDate);
+    moraleHtml += moraleCardHtml(isToday?'היום':fmtDate(selectedDate), dailyActivity, done, 'daily', selectedDate);
   } else {
-    moraleHtml += `<div class="morale-card"><p style="font-size:13px;color:var(--accent-dark);">בחר פעילויות לשבוע כדי לראות כאן את המורל של היום</p></div>`;
+    moraleHtml += `<div class="morale-card"><p style="font-size:13px;color:var(--accent-dark);">בחר פעילויות לשבוע כדי לראות כאן את המורל של ${isToday?'היום':'התאריך הזה'}</p></div>`;
   }
   const weeklyActivity = weekSel.exists() ? weekSel.data().weeklyActivity : null;
   if(weeklyActivity){
@@ -480,7 +509,7 @@ window.openMoraleChange = async function(scope){
 window.saveMoraleChange = async function(scope){
   const value = val('d_change');
   const wId = isoWeekStart(), mId = monthId();
-  if(scope==='daily'){ await setDoc(doc(db,'users',uid,'weeklyMoraleSelections',wId), {[todayDayKey()]: value}, {merge:true}); }
+  if(scope==='daily'){ await setDoc(doc(db,'users',uid,'weeklyMoraleSelections',weekStartFor(selectedDate)), {[dayKeyFor(selectedDate)]: value}, {merge:true}); }
   else if(scope==='weekly'){ await setDoc(doc(db,'users',uid,'weeklyMoraleSelections',wId), {weeklyActivity: value}, {merge:true}); }
   else { await setDoc(doc(db,'users',uid,'monthlyMoraleSelections',mId), {activity: value}, {merge:true}); }
   closeModal(); renderHome();
@@ -522,14 +551,15 @@ window.saveMonthlySelect = async function(){
 
 /* ---------- DAILY WINS ---------- */
 window.openWinsModal = async function(){
-  const snap = await getDoc(doc(db,'users',uid,'dailyWins',todayStr()));
+  const snap = await getDoc(doc(db,'users',uid,'dailyWins',selectedDate));
   const items = snap.exists() ? (snap.data().items||[]) : [];
   const rows = Array.from({length:10}, (_,i)=>`<input class="winInput" data-i="${i}" placeholder="הצלחה ${i+1}" value="${esc(items[i]||'')}">`).join('');
-  renderModal(`<h3>10 הצלחות היום</h3>${rows}<button class="btn" style="width:100%;" onclick="saveWins()">שמירה</button>`);
+  const isToday = selectedDate===todayStr();
+  renderModal(`<h3>10 הצלחות ${isToday?'היום':'- '+fmtDate(selectedDate)}</h3>${rows}<button class="btn" style="width:100%;" onclick="saveWins()">שמירה</button>`);
 };
 window.saveWins = async function(){
   const items = [...document.querySelectorAll('.winInput')].map(i=>i.value).filter(v=>v.trim());
-  await setDoc(doc(db,'users',uid,'dailyWins',todayStr()), {items});
+  await setDoc(doc(db,'users',uid,'dailyWins',selectedDate), {items});
   closeModal(); renderHome();
 };
 
@@ -593,6 +623,7 @@ window.openAppEdit = async function(id){
     <h3>עריכת הגשה</h3>
     <label>חברה</label><input id="m_company" value="${esc(a.company)}">
     <label>תפקיד</label><input id="m_role" value="${esc(a.role)}">
+    <label>תאריך הגשה</label><input type="date" id="m_date" value="${a.submittedDate||''}">
     <label>סטטוס</label>
     <select id="m_status">${STATUS_APP.map(s=>`<option ${s===a.status?'selected':''}>${s}</option>`).join('')}</select>
     <label>תאריך מעקב הבא</label><input type="date" id="m_next" value="${a.nextFollowUp||''}">
@@ -603,7 +634,7 @@ window.openAppEdit = async function(id){
 window.saveAppEdit = async function(id){
   await updateDoc(doc(db,'users',uid,'applications',id), {
     company: val('m_company'), role: val('m_role'), status: val('m_status'),
-    nextFollowUp: val('m_next')||null, notes: val('m_notes')||null
+    submittedDate: val('m_date')||null, nextFollowUp: val('m_next')||null, notes: val('m_notes')||null
   });
   closeModal(); renderApps(); renderHome();
 };
@@ -734,6 +765,7 @@ window.saveWeeklyPick = async function(targetWeek){
 window.openFollowup = function(id){
   renderModal(`
     <h3>איך הלכה השיחה?</h3>
+    <label>תאריך השיחה</label><input type="date" id="m_calldate" value="${todayStr()}">
     <label>הערות / תובנות</label><textarea id="m_notes" rows="3"></textarea>
     <label>סטטוס</label>
     <select id="m_status">${STATUS_NET.filter(s=>s!=='לא פניתי עדיין').map(s=>`<option>${s}</option>`).join('')}</select>
@@ -744,7 +776,7 @@ window.openFollowup = function(id){
 window.saveFollowup = async function(id){
   await updateDoc(doc(db,'users',uid,'networking',id), {
     notes: val('m_notes'), status: val('m_status'), nextFollowUp: val('m_next')||null,
-    firstOutreach: todayStr(), plannedWeekId:null
+    firstOutreach: val('m_calldate')||todayStr(), plannedWeekId:null
   });
   closeModal(); renderNetwork(); renderHome();
 };
